@@ -1,78 +1,80 @@
 <template>
-  <section class="experiencia section" aria-labelledby="experiencia-heading">
-    <div class="experiencia__inner container">
-      <div class="experiencia__image-col">
+  <section class="experiencia section" aria-labelledby="experiencia-titulo">
+    <div class="container experiencia__container">
+      <div class="experiencia__content">
+        <h2 id="experiencia-titulo" class="experiencia__title">{{ siteData.experiencia.titulo }}</h2>
+      </div>
+      <div class="experiencia__image-wrap">
         <img
-          :src="site.experiencia.image"
-          :alt="site.experiencia.imageAlt"
+          :src="siteData.experiencia.imagen"
+          :alt="siteData.experiencia.imagenAlt"
           class="experiencia__img"
           width="800"
           height="600"
           loading="lazy"
         />
       </div>
-      <div class="experiencia__text-col">
-        <h1 id="experiencia-heading" class="experiencia__heading">
-          {{ site.experiencia.heading }}
-        </h1>
-        <span class="divider"></span>
-      </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import site from '../../data/siteData.js'
+import siteData from '../../data/siteData.js'
 </script>
 
 <style scoped>
 .experiencia {
   background: var(--color-surface);
+  padding: var(--section-padding) 0;
 }
 
-.experiencia__inner {
+.experiencia__container {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl);
   align-items: center;
 }
 
-@media (min-width: 768px) {
-  .experiencia__inner {
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-  }
+.experiencia__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.experiencia__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+  color: var(--color-heading);
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+
+.experiencia__image-wrap {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
 }
 
 .experiencia__img {
   width: 100%;
   height: auto;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-md);
   object-fit: cover;
+  display: block;
+  transition: transform var(--transition-base);
 }
 
-.experiencia__text-col {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+.experiencia__image-wrap:hover .experiencia__img {
+  transform: scale(1.03);
 }
 
-@media (min-width: 768px) {
-  .experiencia__text-col {
-    text-align: left;
-    align-items: flex-start;
+@media (max-width: 768px) {
+  .experiencia {
+    padding: var(--section-padding-mobile) 0;
   }
-}
 
-.experiencia__heading {
-  font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
-  font-weight: 700;
-  color: var(--color-secondary);
-  letter-spacing: 0.04em;
-  line-height: 1.15;
+  .experiencia__container {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
 }
 </style>

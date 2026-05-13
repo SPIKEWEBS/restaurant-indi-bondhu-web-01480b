@@ -1,215 +1,212 @@
 <template>
   <footer class="footer">
-    <div class="footer__inner container">
-      <!-- Brand block -->
-      <div class="footer__brand">
-        <p class="footer__brand-name">BONDHU</p>
-        <p class="footer__brand-sub">Indian Premium Restaurant</p>
-      </div>
-
-      <!-- Contact info -->
-      <div class="footer__contact">
-        <h2 class="footer__section-title">Dónde estamos</h2>
-        <div class="footer__contact-list">
-          <div class="footer__contact-item">
-            <span class="footer__icon" aria-hidden="true">📍</span>
-            <span>BONDHU Restaurant<br />{{ site.address }}</span>
-          </div>
-          <div class="footer__contact-item">
-            <span class="footer__icon" aria-hidden="true">☎</span>
-            <a :href="site.phoneHref" class="footer__contact-link" :aria-label="'Llamar al ' + site.phone">
-              (+34) {{ site.phone }}
-            </a>
-          </div>
-          <div class="footer__contact-item">
-            <span class="footer__icon" aria-hidden="true">✉</span>
-            <a :href="site.emailHref" class="footer__contact-link" :aria-label="'Enviar email a ' + site.email">
-              {{ site.email }}
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Hours -->
-      <div class="footer__hours">
-        <h2 class="footer__section-title">Nuestros horarios</h2>
-        <div class="footer__hours-list">
-          <div class="footer__hours-item">
-            <span class="footer__icon" aria-hidden="true">🕐</span>
-            <div>
-              <p>Miércoles - Domingo</p>
-              <p>13:00h - 16:00h</p>
-              <p>19.30h - 23:00h</p>
+    <div class="footer__container">
+      <!-- Contact & Hours -->
+      <div class="footer__grid">
+        <!-- Where we are -->
+        <div class="footer__block">
+          <h2 class="footer__heading">Dónde estamos</h2>
+          <div class="footer__info">
+            <div class="footer__info-item">
+              <span class="footer__icon">🏠</span>
+              <div>
+                <strong>BONDHU Restaurant</strong><br>
+                <span>{{ siteData.direccion }}</span>
+              </div>
+            </div>
+            <div class="footer__info-item">
+              <span class="footer__icon">📞</span>
+              <a :href="siteData.telefonoHref" class="footer__link" :aria-label="`Llamar al restaurante: ${siteData.telefono}`">
+                (+34) {{ siteData.telefono }}
+              </a>
+            </div>
+            <div class="footer__info-item">
+              <span class="footer__icon">✉️</span>
+              <a :href="siteData.emailHref" class="footer__link" :aria-label="`Enviar email a ${siteData.email}`">
+                {{ siteData.email }}
+              </a>
             </div>
           </div>
-          <div class="footer__hours-item">
-            <span class="footer__icon" aria-hidden="true">🚫</span>
-            <div>
-              <p>Lunes y Martes</p>
-              <p><strong>Cerrado</strong></p>
+        </div>
+
+        <!-- Hours -->
+        <div class="footer__block">
+          <h2 class="footer__heading">Nuestros horarios</h2>
+          <div class="footer__hours">
+            <div class="footer__hours-chip">
+              <span class="footer__icon">🕐</span>
+              <div>
+                <strong>{{ siteData.horarios.activos }}</strong><br>
+                <span>{{ siteData.horarios.mediodiaInicio }} - {{ siteData.horarios.mediodiaCierre }}</span><br>
+                <span>{{ siteData.horarios.nocheInicio }} - {{ siteData.horarios.nocheCierre }}</span>
+              </div>
+            </div>
+            <div class="footer__hours-chip footer__hours-chip--closed">
+              <span class="footer__icon">🔒</span>
+              <span>{{ siteData.horarios.cerrado }}</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Legal links -->
-    <div class="footer__legal">
-      <div class="footer__legal-inner container">
-        <nav class="footer__legal-nav" aria-label="Navegación legal">
-          <RouterLink
-            v-for="link in site.footerLegalLinks"
-            :key="link.to"
-            :to="link.to"
-            class="footer__legal-link"
-          >
-            {{ link.label }}
-          </RouterLink>
+      <!-- Legal links -->
+      <div class="footer__legal">
+        <nav aria-label="Links legales">
+          <ul class="footer__legal-links">
+            <li v-for="link in siteData.footerLinks" :key="link.to">
+              <RouterLink :to="link.to" class="footer__legal-link">{{ link.label }}</RouterLink>
+            </li>
+          </ul>
         </nav>
-        <p class="footer__copyright">{{ site.copyright }}</p>
+      </div>
+
+      <!-- Copyright -->
+      <div class="footer__copyright">
+        <p>{{ siteData.copyright }}</p>
       </div>
     </div>
   </footer>
 </template>
 
 <script setup>
-import site from '../data/siteData.js'
+import siteData from '../data/siteData.js'
 </script>
 
 <style scoped>
 .footer {
-  background: var(--color-dark-section);
-  color: var(--color-white);
-  padding-top: var(--section-pad-desktop);
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  padding: var(--section-padding) 0 var(--space-lg);
 }
 
-.footer__inner {
+.footer__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.footer__grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
-  padding-bottom: var(--section-pad-desktop);
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl);
+  margin-bottom: var(--space-xl);
 }
 
-@media (min-width: 768px) {
-  .footer__inner {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3rem;
-  }
+.footer__block {}
+
+.footer__heading {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  color: var(--color-heading);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--color-primary);
+  display: inline-block;
 }
 
-/* Brand */
-.footer__brand {
+.footer__info {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-}
-.footer__brand-name {
-  font-family: var(--font-heading);
-  font-size: var(--fs-2xl);
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: var(--color-primary);
-}
-.footer__brand-sub {
-  font-size: var(--fs-sm);
-  color: rgba(255, 255, 255, 0.7);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  gap: var(--space-sm);
 }
 
-/* Section titles */
-.footer__section-title {
-  font-family: var(--font-heading);
-  font-size: var(--fs-lg);
-  font-weight: 700;
-  color: var(--color-primary);
-  letter-spacing: 0.05em;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-}
-
-/* Contact */
-.footer__contact-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-.footer__contact-item {
+.footer__info-item {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
-  font-size: var(--fs-sm);
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.5;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
 }
+
 .footer__icon {
-  font-size: 1rem;
+  font-size: 1.2rem;
   flex-shrink: 0;
-  margin-top: 2px;
+  margin-top: 0.1rem;
 }
-.footer__contact-link {
-  color: rgba(255, 255, 255, 0.85);
+
+.footer__link {
+  color: var(--color-primary);
   text-decoration: none;
+  font-weight: 600;
   transition: color var(--transition-fast);
 }
-.footer__contact-link:hover {
-  color: var(--color-primary);
+
+.footer__link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
 }
 
-/* Hours */
-.footer__hours-list {
+.footer__hours {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-sm);
 }
-.footer__hours-item {
+
+.footer__hours-chip {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
-  font-size: var(--fs-sm);
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.6;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
 }
 
-/* Legal */
+.footer__hours-chip--closed {
+  border-color: rgba(139, 0, 0, 0.2);
+  background: rgba(139, 0, 0, 0.05);
+}
+
 .footer__legal {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-block: 1.25rem;
-}
-.footer__legal-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  text-align: center;
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-md);
+  margin-bottom: var(--space-sm);
 }
 
-@media (min-width: 600px) {
-  .footer__legal-inner {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-}
-
-.footer__legal-nav {
+.footer__legal-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1rem;
+  gap: var(--space-sm);
+  list-style: none;
+  padding: 0;
+  margin: 0;
   justify-content: center;
 }
+
 .footer__legal-link {
-  font-size: var(--fs-xs);
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-light);
+  font-size: var(--font-size-sm);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
+
 .footer__legal-link:hover {
   color: var(--color-primary);
+  text-decoration: underline;
 }
 
 .footer__copyright {
-  font-size: var(--fs-xs);
-  color: rgba(255, 255, 255, 0.5);
-  white-space: nowrap;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  padding-top: var(--space-sm);
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: var(--section-padding-mobile) 0 var(--space-lg);
+  }
+
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .footer__legal-links {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>

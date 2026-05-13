@@ -1,24 +1,44 @@
 <template>
   <main id="main-content" class="carta-page">
     <div class="carta-page__hero">
-      <div class="carta-page__overlay" aria-hidden="true"></div>
-      <div class="carta-page__hero-content container">
-        <h1 class="carta-page__heading">{{ site.carta.heading }}</h1>
-        <span class="divider"></span>
+      <div class="carta-page__hero-overlay"></div>
+      <div class="carta-page__hero-content">
+        <h1 class="carta-page__title">{{ siteData.carta.titulo }}</h1>
       </div>
     </div>
 
-    <section class="carta-page__body section" aria-labelledby="carta-heading-main">
-      <div class="container">
-        <div class="carta-page__content">
-          <h2 id="carta-heading-main" class="carta-page__tagline">Indian Premium Restaurant</h2>
-          <p class="carta-page__intro">{{ site.carta.intro }}</p>
-
-          <div class="carta-page__cta-group">
-            <a :href="site.carta.ctaHref" class="carta-page__cta" :aria-label="site.carta.ctaLabel + ' — restaurante Bondhu'">
-              {{ site.carta.ctaLabel }}
-            </a>
-          </div>
+    <section class="carta-page__body section container" aria-labelledby="carta-titulo">
+      <div class="carta-page__intro">
+        <p class="carta-page__desc">{{ siteData.carta.descripcion }}</p>
+        <div class="carta-page__ctas">
+          <a
+            :href="siteData.telefonoHref"
+            class="btn btn-primary carta-page__cta"
+            aria-label="Llamar y reservar ahora en Bondhu Restaurant"
+          >
+            {{ siteData.carta.ctaLabel }}
+          </a>
+          <a
+            :href="siteData.telefonoHref"
+            class="btn btn-outline carta-page__cta"
+            aria-label="Llamar y reservar ahora en Bondhu Restaurant"
+          >
+            Llama y reserva Ahora >>>
+          </a>
+          <a
+            :href="siteData.telefonoHref"
+            class="btn btn-primary carta-page__cta"
+            aria-label="Llamar y reservar ahora en Bondhu Restaurant"
+          >
+            Llama y reserva Ahora >>>
+          </a>
+          <a
+            :href="siteData.telefonoHref"
+            class="btn btn-outline carta-page__cta"
+            aria-label="Llamar y reservar ahora en Bondhu Restaurant"
+          >
+            Llama y reserva Ahora >>>
+          </a>
         </div>
       </div>
     </section>
@@ -27,7 +47,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import site from '../data/siteData.js'
+import siteData from '../data/siteData.js'
 
 onMounted(() => {
   document.title = 'Nuestra Carta — Bondhu Indian Premium Restaurant'
@@ -35,93 +55,76 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.carta-page__hero {
-  position: relative;
-  min-height: 40vh;
-  background: var(--color-dark-section);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.carta-page {
   padding-top: var(--navbar-height);
 }
 
-.carta-page__overlay {
+.carta-page__hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--color-surface-dark) 0%, #2d1b00 100%);
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carta-page__hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--color-dark-section) 0%, var(--color-secondary) 100%);
-  opacity: 0.95;
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .carta-page__hero-content {
   position: relative;
   z-index: 1;
   text-align: center;
-  padding-block: 4rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+  padding: var(--space-2xl) var(--space-md);
 }
 
-.carta-page__heading {
+.carta-page__title {
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--color-primary);
-  text-transform: uppercase;
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: #fff;
+  letter-spacing: 0.1em;
 }
 
 .carta-page__body {
-  background: var(--color-surface);
-}
-
-.carta-page__content {
-  max-width: 680px;
-  margin-inline: auto;
+  padding-top: var(--section-padding);
+  padding-bottom: var(--section-padding);
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.carta-page__tagline {
-  font-family: var(--font-heading);
-  font-size: var(--fs-xl);
-  color: var(--color-secondary);
-  letter-spacing: 0.08em;
 }
 
 .carta-page__intro {
-  font-size: var(--fs-md);
-  color: var(--color-text-light);
-  line-height: 1.8;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.carta-page__cta-group {
+.carta-page__desc {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-light);
+  line-height: 1.8;
+  margin-bottom: var(--space-2xl);
+}
+
+.carta-page__ctas {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--space-md);
   justify-content: center;
 }
 
 .carta-page__cta {
-  display: inline-block;
-  padding: 0.875rem 2.25rem;
-  background: var(--color-primary);
-  color: var(--color-white);
-  font-size: var(--fs-base);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: var(--border-radius-sm);
-  transition: background var(--transition-base), transform var(--transition-fast);
+  min-width: 220px;
 }
-.carta-page__cta:hover {
-  background: var(--color-primary-dark);
-  color: var(--color-white);
-  transform: translateY(-1px);
+
+@media (max-width: 768px) {
+  .carta-page__body {
+    padding: var(--section-padding-mobile) var(--space-sm);
+  }
+
+  .carta-page__ctas {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>

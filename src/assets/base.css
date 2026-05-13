@@ -1,77 +1,52 @@
-/* ============================================================
-   BONDHU — Base / Reset / Global Styles
-   ============================================================ */
-
+/* =============================================
+   BONDHU Indian Premium Restaurant — Base CSS
+   ============================================= */
 @import './variables.css';
 
-/* --- Reset --- */
-*,
-*::before,
-*::after {
+/* Reset */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 html {
+  font-size: var(--font-size-base);
   scroll-behavior: smooth;
-  font-size: 16px;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--font-body);
-  font-size: var(--fs-base);
   color: var(--color-text);
   background-color: var(--color-bg);
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* --- Accessibility: Focus visible --- */
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
-}
-
-/* --- Skip link --- */
-.skip-link {
-  position: absolute;
-  left: -9999px;
-  top: 0;
-  z-index: 9999;
-  background: var(--color-primary);
-  color: var(--color-white);
-  padding: 0.5rem 1rem;
-  border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
-  font-weight: 600;
-  text-decoration: none;
-  transition: left var(--transition-fast);
-}
-.skip-link:focus {
-  left: 0;
-}
-
-/* --- Typography --- */
+/* Typography */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   line-height: 1.2;
-  color: inherit;
+  color: var(--color-heading);
 }
 
 h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
-h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
-h3 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); }
+h3 { font-size: clamp(1rem, 2vw, 1.3rem); }
 
 p {
   line-height: 1.7;
+  color: var(--color-text);
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  transition: color var(--transition-fast);
 }
+
 a:hover {
   color: var(--color-primary);
 }
@@ -87,30 +62,12 @@ ul {
 
 button {
   cursor: pointer;
-  font-family: inherit;
   border: none;
   background: none;
+  font-family: inherit;
 }
 
-/* --- Container utility --- */
-.container {
-  width: 100%;
-  max-width: var(--container-max);
-  margin-inline: auto;
-  padding-inline: var(--container-pad);
-}
-
-/* --- Section padding --- */
-.section {
-  padding-block: var(--section-pad-mobile);
-}
-@media (min-width: 768px) {
-  .section {
-    padding-block: var(--section-pad-desktop);
-  }
-}
-
-/* --- Screen reader only --- */
+/* Accessibility */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -120,20 +77,96 @@ button {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
-  border-width: 0;
+  border: 0;
 }
 
-/* --- Text utilities --- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: bold;
+  border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* Container */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+/* Section base */
+.section {
+  padding: var(--section-padding) 0;
+}
+
+.section--surface {
+  background-color: var(--color-surface);
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: all var(--transition-base);
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  border: 2px solid var(--color-primary);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: #fff;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.btn-outline:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* Utility classes */
 .text-center { text-align: center; }
 .text-gold { color: var(--color-primary); }
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
 
-/* --- Divider --- */
-.divider {
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: var(--color-primary);
-  margin-inline: auto;
-  margin-block: 1rem;
-  border-radius: 2px;
+/* Mobile first media queries */
+@media (max-width: 768px) {
+  .section {
+    padding: var(--section-padding-mobile) 0;
+  }
+  .container {
+    padding: 0 1rem;
+  }
 }

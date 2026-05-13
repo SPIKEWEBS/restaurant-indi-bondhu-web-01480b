@@ -1,40 +1,47 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from './views/HomeView.vue'
+import CartaView from './views/CartaView.vue'
+import EligeTuMesaView from './views/EligeTuMesaView.vue'
+import ContactoView from './views/ContactoView.vue'
+import AvisoLegalView from './views/AvisoLegalView.vue'
+import PoliticaPrivacidadView from './views/PoliticaPrivacidadView.vue'
+import PoliticaCookiesView from './views/PoliticaCookiesView.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'inicio',
-    component: () => import('./views/HomeView.vue'),
+    name: 'home',
+    component: HomeView,
   },
   {
     path: '/carta',
     name: 'carta',
-    component: () => import('./views/CartaView.vue'),
+    component: CartaView,
   },
   {
     path: '/elige-tu-mesa',
     name: 'elige-tu-mesa',
-    component: () => import('./views/EligeTuMesaView.vue'),
+    component: EligeTuMesaView,
   },
   {
     path: '/contacto',
     name: 'contacto',
-    component: () => import('./views/ContactoView.vue'),
+    component: ContactoView,
   },
   {
     path: '/aviso-legal',
     name: 'aviso-legal',
-    component: () => import('./views/AvisoLegalView.vue'),
+    component: AvisoLegalView,
   },
   {
     path: '/politica-de-privacidad',
     name: 'politica-de-privacidad',
-    component: () => import('./views/PoliticaPrivacidadView.vue'),
+    component: PoliticaPrivacidadView,
   },
   {
     path: '/politica-de-cookies',
     name: 'politica-de-cookies',
-    component: () => import('./views/PoliticaCookiesView.vue'),
+    component: PoliticaCookiesView,
   },
 ]
 

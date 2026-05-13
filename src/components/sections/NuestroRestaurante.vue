@@ -1,22 +1,18 @@
 <template>
-  <section class="restaurante section" aria-labelledby="restaurante-heading">
+  <section class="restaurante section section--surface" aria-labelledby="restaurante-titulo">
     <div class="container">
-      <div class="restaurante__header text-center">
-        <h1 id="restaurante-heading" class="restaurante__heading">
-          {{ site.restaurante.heading }}
-        </h1>
-        <span class="divider"></span>
-        <h3 class="restaurante__subheading">
-          {{ site.restaurante.subheading }}
-        </h3>
-      </div>
-
-      <div class="restaurante__body">
-        <p class="restaurante__text">{{ site.restaurante.body1 }}</p>
-        <p class="restaurante__text">{{ site.restaurante.body2 }}</p>
-        <div class="restaurante__cta-wrap">
-          <a :href="site.restaurante.ctaHref" class="restaurante__cta" :aria-label="site.restaurante.ctaLabel + ' al restaurante Bondhu'">
-            {{ site.restaurante.ctaLabel }}
+      <div class="restaurante__header">
+        <h2 id="restaurante-titulo" class="restaurante__title">{{ siteData.restaurante.titulo }}</h2>
+        <h3 class="restaurante__subtitle">{{ siteData.restaurante.subtitulo }}</h3>
+        <p class="restaurante__desc">{{ siteData.restaurante.descripcion1 }}</p>
+        <p class="restaurante__desc">{{ siteData.restaurante.descripcion2 }}</p>
+        <div class="restaurante__cta">
+          <a
+            :href="siteData.telefonoHref"
+            class="btn btn-primary restaurante__btn"
+            aria-label="Llamar y reservar ahora en Bondhu Restaurant"
+          >
+            {{ siteData.restaurante.ctaLabel }}
           </a>
         </div>
       </div>
@@ -25,78 +21,58 @@
 </template>
 
 <script setup>
-import site from '../../data/siteData.js'
+import siteData from '../../data/siteData.js'
 </script>
 
 <style scoped>
 .restaurante {
-  background: var(--color-surface);
+  padding: var(--section-padding) 0;
 }
 
 .restaurante__header {
-  max-width: 800px;
-  margin-inline: auto;
-  margin-bottom: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.restaurante__heading {
-  font-family: var(--font-heading);
-  font-size: clamp(1.75rem, 4vw, 3rem);
-  font-weight: 700;
-  color: var(--color-secondary);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.restaurante__subheading {
-  font-family: var(--font-heading);
-  font-size: clamp(1rem, 2vw, 1.35rem);
-  color: var(--color-primary);
-  letter-spacing: 0.1em;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.restaurante__body {
-  max-width: 680px;
-  margin-inline: auto;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.restaurante__text {
-  font-size: var(--fs-md);
+.restaurante__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: var(--color-heading);
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-sm);
+}
+
+.restaurante__subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: var(--color-primary);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+}
+
+.restaurante__desc {
+  font-size: var(--font-size-lg);
   color: var(--color-text-light);
   line-height: 1.8;
-}
-
-.restaurante__cta-wrap {
-  margin-top: 1rem;
+  margin-bottom: var(--space-sm);
 }
 
 .restaurante__cta {
-  display: inline-block;
-  padding: 0.875rem 2.25rem;
-  background: var(--color-primary);
-  color: var(--color-white);
-  font-size: var(--fs-base);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: var(--border-radius-sm);
-  transition: background var(--transition-base), transform var(--transition-fast);
+  margin-top: var(--space-xl);
 }
-.restaurante__cta:hover {
-  background: var(--color-primary-dark);
-  color: var(--color-white);
-  transform: translateY(-1px);
+
+.restaurante__btn {
+  font-size: var(--font-size-lg);
+  padding: 1rem 2.5rem;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+  .restaurante {
+    padding: var(--section-padding-mobile) 0;
+  }
 }
 </style>

@@ -2,74 +2,88 @@
 
 ## 🔴 Crítico (sin esto el site no es entregable)
 
-- [ ] **Imágenes reales**: Sustituir los 7 placeholders `placehold.co` por las fotografías reales del restaurante Bondhu. Las imágenes deben ir en `/public/images/`:
-  - `desconocido-3.jpg` → Hero/portada (sección BONDHU, posición DOM 1)
-  - `desconocido-1.jpg` → Sección "ųŋą ɛҳ℘ɛཞıɛŋƈıą ɖıʄɛཞɛŋɬɛ" (portada experiencia)
-  - `desconocido-5.jpg` → Logo block (clase `logo-block`)
-  - `desconocido-4.jpg` → Grid especialidades (posición 1)
-  - `desconocido-2.jpg` → Grid especialidades (posición 2)
-  - `desconocido-6.jpg` → Grid especialidades (posición 3)
-  - `desconocido-7.jpg` → Grid especialidades (posición 4)
-- [ ] **Teléfono verificado**: Confirmar que `971 37 34 73` es el número actual y operativo del restaurante
-- [ ] **Email verificado**: Confirmar que `majspice.bondhu@gmail.com` es el email activo del restaurante
-- [ ] **Carta / Menú**: La página `/carta` actualmente solo muestra texto introductorio y un botón de llamada. Si el restaurante tiene un PDF con la carta completa o una URL con los platos detallados, añadir el enlace o embeber el PDF. No se listaron platos en el HTML original.
-- [ ] **Sección "NUESTRO RESTAURANTE" sin imágenes**: El original tiene una sección dedicada al comedor/restaurante. Si existen fotografías del local, añadirlas a `NuestroRestaurante.vue` en un grid de imágenes.
+- [ ] **Imágenes reales**: Reemplazar todos los placeholders (`https://placehold.co/...`) con las fotos reales del restaurante. Hay 7 imágenes pendientes:
+  - Hero/portada (sección BONDHU): `https://placehold.co/800x600?text=desconocido%203`
+  - Sección "Una experiencia diferente": `https://placehold.co/800x600?text=desconocido%201`
+  - Sección "ESPECIALIDADES HINDÚES" — imagen 1: `https://placehold.co/800x600?text=desconocido%204`
+  - Sección "ESPECIALIDADES HINDÚES" — imagen 2: `https://placehold.co/800x600?text=desconocido%202`
+  - Sección "ESPECIALIDADES HINDÚES" — imagen 3: `https://placehold.co/800x600?text=desconocido%206`
+  - Sección "ESPECIALIDADES HINDÚES" — imagen 4: `https://placehold.co/800x600?text=desconocido%207`
+  - Logo (clase `logo-block`): `https://placehold.co/800x600?text=desconocido%205` — ubicar en la navbar o hero
+
+- [ ] **Logo real**: El sitio original tiene un logo propio (`logo-block`). Añadirlo a `AppNavbar.vue` en lugar del texto plano "Indian Premium Restaurant". Guardar como `/images/logo.png` o `.svg`.
+
+- [ ] **Verificar teléfono**: Confirmar que `971 37 34 73` es el número actual del restaurante y que el `href="tel:+34971373473"` funciona correctamente en móvil.
+
+- [ ] **Verificar email**: Confirmar que `majspice.bondhu@gmail.com` es el email activo y recibe mensajes correctamente.
+
+- [ ] **Carta del restaurante (subpágina `/carta`)**: El original dice "Te las explicamos a continuación" pero el contenido de la carta real no estaba disponible en el HTML scrapeado. Si existe un PDF de la carta, añadir el link de descarga. Si los platos están online, añadirlos en `siteData.js`. Actualmente la página solo muestra botones de llamada.
+
+- [ ] **Backend de reservas**: El sitio original enlaza a reservas telefónicas. Si se quiere añadir reserva online (formulario), conectar con un servicio como Netlify Forms, Formspree o Reservas Restaurante.
 
 ## 🟡 Importante (mejora significativa)
 
-- [ ] **Favicon**: Reemplazar el favicon por defecto de Vite con el logo real del restaurante Bondhu (formato `.ico` + `.png` 192px y 512px)
-- [ ] **og:image**: Añadir imagen real de Open Graph en `index.html` (meta property="og:image") — usar foto de portada del restaurante, mín. 1200×630px
-- [ ] **Google Maps**: El original incluía información de ubicación (Plaça Jaume II, 3A, Ferreries). Añadir un `<iframe>` de Google Maps en la sección de contacto / footer con la dirección real. Requiere API key o iframe embed desde Google Maps.
-- [ ] **Google Rating badge**: El restaurante tiene 4.8/5 con 563 reseñas en Google. Si se desea mostrar el badge oficial, integrar Google Places API.
-- [ ] **Reservas online**: El navbar original tiene "ELIGE TU MESA" que apunta a una sección de reservas. Valorar integrar un sistema de reservas real (ej: Resy, TheFork, o formulario de reserva con backend Formspree/Netlify Forms con campos: nombre, fecha, hora, nº comensales, teléfono).
-- [ ] **Sitemap.xml**: Generar `sitemap.xml` con las rutas: `/`, `/carta`, `/elige-tu-mesa`, `/contacto`, `/aviso-legal`, `/politica-de-privacidad`, `/politica-de-cookies`
-- [ ] **robots.txt**: Añadir `robots.txt` básico en `/public/`
+- [ ] **Favicon**: Reemplazar el favicon por defecto de Vite con el logo real del restaurante. Colocar en `public/favicon.ico` y `public/favicon.svg`.
+
+- [ ] **Open Graph images**: Añadir imágenes OG reales para cada vista en el `index.html` o mediante un plugin de meta tags. Mínimo una imagen 1200×630 con el logo y el nombre del restaurante.
+
+- [ ] **Google Maps embebido**: En la página `/contacto`, sustituir el placeholder de mapa por un `<iframe>` de Google Maps con el src real:
+  ```
+  https://www.google.com/maps/embed?pb=!1m18!1m12!...
+  ```
+  Buscar: "Plaça Jaume II 3A 07750 Ferreries Menorca" en Google Maps y copiar el embed.
+
+- [ ] **Página "ELIGE TU MESA"**: El original mencionaba fotos del comedor y la terraza. Añadir imágenes reales del interior cuando estén disponibles.
+
+- [ ] **Sitemap.xml**: Generar un sitemap con las rutas `/`, `/carta`, `/elige-tu-mesa`, `/contacto`, `/aviso-legal`, `/politica-de-privacidad`, `/politica-de-cookies` para mejorar indexación SEO.
+
+- [ ] **Horarios del lunes y martes**: Verificar que "Lunes y Martes Cerrado" es correcto para la temporada actual (los horarios pueden cambiar en verano).
 
 ## 🟢 Opcional (nice-to-have)
 
-- [ ] **Cookie consent banner**: El original tenía un banner de cookies con opciones "Aceptar solo lo necesario" / "Aceptar todo". Implementar con `vue-cookie-consent` o un componente propio que guarde preferencia en `localStorage`.
-- [ ] **Animaciones de entrada**: Añadir `IntersectionObserver` para animar secciones al hacer scroll (fade-in suave).
-- [ ] **PWA**: Añadir `manifest.json` y service worker para soporte offline básico.
-- [ ] **Idiomas**: Si el restaurante recibe turismo internacional en Menorca, considerar versión en inglés/alemán (vue-i18n).
-- [ ] **Horario dinámico**: Mostrar automáticamente "Abierto ahora" / "Cerrado" en el hero o navbar según el día y hora actual.
+- [ ] **Banner de cookies funcional con categorías**: El banner actual acepta/rechaza cookies pero no activa/desactiva Google Analytics u otras herramientas según la elección. Si se añade Analytics, implementar lógica condicional.
+
+- [ ] **PWA / manifest.json**: Añadir `manifest.json` y service worker para soporte offline, especialmente útil para clientes que consultan el horario o teléfono sin conexión.
+
+- [ ] **Animaciones de entrada**: El sitio original podía tener animaciones suaves al hacer scroll. Se pueden añadir con `IntersectionObserver` en las secciones.
+
+- [ ] **Sección de reseñas Google**: El restaurante tiene 4.8/5 con 563 reseñas. Valorar mostrar este badge de calidad en la home o en el footer.
+
+- [ ] **WhatsApp button**: Añadir botón flotante de WhatsApp para reservas rápidas si el restaurante lo usa.
 
 ## ✅ Hecho automáticamente
 
-- [x] Estructura Vue 3 completa con Composition API (`<script setup>`)
-- [x] Router con 7 rutas semánticas en español (`/carta`, `/elige-tu-mesa`, `/contacto`, etc.)
-- [x] Navbar responsive con menú hamburger para móvil
-- [x] Navbar sticky con efecto blur/glassmorphism al hacer scroll
-- [x] Hero 100vh con imagen de fondo + overlay oscuro
-- [x] Secciones con fondo alternado (blanco / surface / dark)
-- [x] Sección de contacto con grid de cards e iconos emoji (📍 ☎ ✉ 🕐)
-- [x] Footer con 3 columnas: brand, dirección, horarios
-- [x] Links legales en footer: Aviso Legal, Política de Privacidad, Política de Cookies
-- [x] Skip-link de accesibilidad (`<a href="#main-content">`)
-- [x] `:focus-visible` con outline visible en todos los elementos interactivos
-- [x] `alt` descriptivo en todas las `<img>`
-- [x] `loading="lazy"` en todas las imágenes excepto el hero (que lleva `fetchpriority="high"`)
-- [x] `width` y `height` explícitos en todas las `<img>` para evitar CLS
-- [x] `{ passive: true }` en el scroll listener del navbar
-- [x] `document.title` dinámico en cada vista con `onMounted`
-- [x] `aria-label` en todos los botones y links de icono/emoji
-- [x] Jerarquía de headings correcta (h1 → h2 → h3) en cada vista
-- [x] CSS custom properties para todos los valores de diseño (colores, fuentes, espaciados)
+- [x] Estructura Vue 3 con `<script setup>` en todos los componentes
+- [x] Router con rutas semánticas en español: `/carta`, `/elige-tu-mesa`, `/contacto`, `/aviso-legal`, `/politica-de-privacidad`, `/politica-de-cookies`
+- [x] Navbar responsivo con menú hamburguesa para móvil
+- [x] Navbar con backdrop-filter blur al hacer scroll
+- [x] Footer con información de contacto, horarios y links legales
+- [x] Hero 100vh con imagen de fondo y overlay oscuro
+- [x] Sección "Una experiencia diferente" replicada
+- [x] Sección "Especialidades Hindúes" con grid de 4 imágenes
+- [x] Sección "Nuestro Restaurante" con CTA de llamada
+- [x] Sección "Os esperamos!" replicada
+- [x] Páginas: Carta, Elige Tu Mesa, Contacto, Aviso Legal, Política Privacidad, Política Cookies
+- [x] Banner de cookies con "Aceptar solo lo necesario" / "Aceptar todo" + localStorage
+- [x] CSS custom properties para colores, fuentes y espaciados
 - [x] Responsive mobile-first con media queries
-- [x] Copyright `© 2026 SpikeWebs` en el footer
+- [x] Accesibilidad WCAG 2.1 AA: aria-labels, skip-link, headings semánticos, focus-visible
+- [x] `loading="lazy"` en todas las imágenes excepto el hero (`fetchpriority="high"`)
+- [x] `document.title` dinámico en cada vista
+- [x] Copyright "© 2026 SpikeWebs" en footer
+- [x] `{ passive: true }` en el event listener de scroll del navbar
 - [x] Datos del negocio centralizados en `data/siteData.js`
-- [x] Vistas para todas las subpáginas detectadas: Carta, Elige tu Mesa, Contacto, Aviso Legal, Política de Privacidad, Política de Cookies
 
 ## 🧪 QA — Verificar antes de enviar al cliente
 
-- [ ] **Navegación**: Verificar que todos los links del navbar (`/`, `/carta`, `/elige-tu-mesa`, `/contacto`) cargan su vista sin error 404 en producción (Netlify/Vercel)
-- [ ] **Historial del router**: Confirmar que en producción el servidor sirve `index.html` para todas las rutas SPA (añadir `_redirects` en Netlify: `/* /index.html 200`)
-- [ ] **Imágenes placeholder**: Verificar que los 7 `placehold.co` carguen correctamente hasta que se sustituyan por las reales
-- [ ] **Botón "Llamar"**: En móvil, verificar que `tel:+34971373473` abre la app de teléfono correctamente
-- [ ] **Botón "Email"**: Verificar que `mailto:majspice.bondhu@gmail.com` abre el cliente de correo
-- [ ] **Menú hamburger**: Verificar en iPhone 14 y viewport 375px que el menú abre/cierra correctamente y los links funcionan
-- [ ] **Hero 100vh**: Verificar en móvil (iOS Safari) que el hero ocupa correctamente la pantalla completa (posibles problemas con `100vh` en Safari móvil — usar `100dvh` si hay problemas)
-- [ ] **Texto especial**: Verificar que el heading "ųŋą ɛҳ℘ɛཞıɛŋƈıą ɖıʄɛཞɛŋɬɛ" se renderiza con la tipografía correcta y sin errores de encoding en todos los navegadores
-- [ ] **Sección "Os esperamos"**: Verificar que el grid de cards se adapta correctamente en mobile (1 columna) y desktop (4 columnas)
-- [ ] **Footer en móvil**: Verificar que las 3 columnas del footer pasan a 1 columna en pantallas pequeñas
-- [ ] **Contraste de colores**: Verificar ratio de contraste del texto dorado (`#c8952a`) sobre fondo oscuro (`#1a1108`) — debe ser ≥ 4.5:1 para texto normal
-- [ ] **Carta vacía**: Confirmar con el cliente si quiere añadir la carta completa en PDF o en formato digital antes de publicar
+- [ ] **Navegación**: Verificar que todos los links del navbar cargan su vista sin error 404. Especialmente `/elige-tu-mesa` y `/contacto`.
+- [ ] **Hero image**: Confirmar que la imagen del hero carga correctamente y el overlay oscuro garantiza legibilidad del texto blanco.
+- [ ] **Responsive móvil (iPhone 14)**: Revisar navbar hamburguesa, grid de especialidades, footer en 2 columnas → 1 columna.
+- [ ] **Responsive tablet (iPad)**: Revisar sección "Experiencia Diferente" (grid 2 cols) y grid de especialidades.
+- [ ] **CTA "Llama y Reserva"**: Verificar que el botón abre la app de teléfono en móvil con `tel:+34971373473`.
+- [ ] **Email link**: Verificar que `mailto:majspice.bondhu@gmail.com` abre el cliente de correo.
+- [ ] **Banner de cookies**: Verificar que al hacer clic "Aceptar solo lo necesario" o "Aceptar todo" el banner desaparece y no vuelve a aparecer al recargar (localStorage funcionando).
+- [ ] **Sección Carta**: Confirmar con el cliente si tiene PDF de carta o lista de platos para añadir el contenido real.
+- [ ] **Página Elige Tu Mesa**: Confirmar con el cliente si tiene fotos del comedor y terraza para añadirlas.
+- [ ] **Contraste de colores**: Verificar que el texto dorado `#c8a96e` sobre fondo blanco supera ratio 4.5:1 (puede necesitar ajuste a un tono más oscuro).
+- [ ] **Focus visible**: Navegar el sitio solo con teclado (Tab) y verificar que el contorno de foco dorado es visible en todos los elementos interactivos.

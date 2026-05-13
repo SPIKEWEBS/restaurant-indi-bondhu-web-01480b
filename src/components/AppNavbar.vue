@@ -1,20 +1,17 @@
 <template>
   <header class="navbar" :class="{ 'navbar--scrolled': scrolled }">
-    <div class="navbar__container container">
-      <!-- Logo / Brand -->
-      <RouterLink to="/" class="navbar__brand" aria-label="Bondhu Indian Premium Restaurant — Ir al inicio">
-        <span class="navbar__brand-name">BONDHU</span>
-        <span class="navbar__brand-sub">Indian Premium Restaurant</span>
+    <div class="navbar__container">
+      <RouterLink to="/" class="navbar__brand" aria-label="Bondhu Indian Premium Restaurant - Inicio">
+        <span class="navbar__brand-text">Indian Premium Restaurant</span>
       </RouterLink>
 
-      <!-- Desktop Nav -->
       <nav class="navbar__nav" aria-label="Menú principal">
-        <ul class="navbar__list" role="list">
-          <li v-for="link in site.navLinks" :key="link.to">
+        <ul class="navbar__links">
+          <li v-for="link in siteData.navLinks" :key="link.to">
             <RouterLink
               :to="link.to"
               class="navbar__link"
-              :aria-label="link.label"
+              :class="{ 'navbar__link--active': isActive(link.to) }"
             >
               {{ link.label }}
             </RouterLink>
@@ -22,16 +19,16 @@
         </ul>
       </nav>
 
-      <!-- Mobile hamburger -->
       <button
-        class="navbar__toggle"
-        :aria-expanded="menuOpen"
+        class="navbar__burger"
+        :class="{ 'navbar__burger--open': menuOpen }"
+        @click="toggleMenu"
         aria-label="Abrir menú de navegación"
-        @click="menuOpen = !menuOpen"
+        :aria-expanded="menuOpen.toString()"
       >
-        <span class="navbar__toggle-bar"></span>
-        <span class="navbar__toggle-bar"></span>
-        <span class="navbar__toggle-bar"></span>
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
     </div>
 
@@ -39,14 +36,14 @@
     <nav
       class="navbar__mobile"
       :class="{ 'navbar__mobile--open': menuOpen }"
-      aria-label="Menú móvil"
+      aria-label="Menú principal móvil"
     >
-      <ul class="navbar__mobile-list" role="list">
-        <li v-for="link in site.navLinks" :key="link.to">
+      <ul class="navbar__mobile-links">
+        <li v-for="link in siteData.navLinks" :key="link.to">
           <RouterLink
             :to="link.to"
             class="navbar__mobile-link"
-            @click="menuOpen = false"
+            @click="closeMenu"
           >
             {{ link.label }}
           </RouterLink>
@@ -58,18 +55,34 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import site from '../data/siteData.js'
+import { useRoute } from 'vue-router'
+import siteData from '../data/siteData.js'
 
 const scrolled = ref(false)
 const menuOpen = ref(false)
+const route = useRoute()
 
 function handleScroll() {
-  scrolled.value = window.scrollY > 40
+  scrolled.value = window.scrollY > 30
+}
+
+function toggleMenu() {
+  menuOpen.value = !menuOpen.value
+}
+
+function closeMenu() {
+  menuOpen.value = false
+}
+
+function isActive(to) {
+  if (to === '/') return route.path === '/'
+  return route.path.startsWith(to)
 }
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true })
 })
+
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
@@ -82,140 +95,148 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: var(--navbar-bg);
+  background: var(--color-navbar-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid transparent;
-  transition: border-color var(--transition-base), background var(--transition-base);
+  border-bottom: 1px solid rgba(200, 169, 110, 0.2);
+  transition: box-shadow var(--transition-base);
 }
 
 .navbar--scrolled {
-  background: rgba(255, 255, 255, 0.97);
-  border-bottom-color: var(--color-border);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
 }
 
 .navbar__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+  height: var(--navbar-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: var(--navbar-height);
 }
 
-/* Brand */
 .navbar__brand {
   display: flex;
   flex-direction: column;
-  line-height: 1.1;
   text-decoration: none;
-  color: var(--color-secondary);
 }
-.navbar__brand-name {
-  font-family: var(--font-heading);
-  font-size: var(--fs-xl);
-  font-weight: 700;
-  letter-spacing: 0.12em;
+
+.navbar__brand-text {
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
   color: var(--color-primary);
-}
-.navbar__brand-sub {
-  font-size: var(--fs-xs);
   letter-spacing: 0.08em;
-  color: var(--color-text-light);
   text-transform: uppercase;
+  font-weight: 600;
 }
 
-/* Desktop nav */
 .navbar__nav {
-  display: none;
-}
-
-.navbar__list {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
 }
 
 .navbar__link {
-  display: inline-block;
-  padding: 0.5rem 0.75rem;
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--color-secondary);
-  text-transform: uppercase;
-  border-radius: var(--border-radius-sm);
-  transition: color var(--transition-fast), background var(--transition-fast);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--color-navbar-text);
   text-decoration: none;
-}
-.navbar__link:hover,
-.navbar__link.router-link-active {
-  color: var(--color-primary);
-  background: rgba(200, 149, 42, 0.08);
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition-fast);
 }
 
-/* Hamburger */
-.navbar__toggle {
-  display: flex;
+.navbar__link:hover,
+.navbar__link--active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.navbar__burger {
+  display: none;
   flex-direction: column;
   gap: 5px;
-  padding: 8px;
   cursor: pointer;
   background: none;
   border: none;
+  padding: 0.5rem;
 }
-.navbar__toggle-bar {
+
+.navbar__burger span {
   display: block;
   width: 24px;
   height: 2px;
-  background: var(--color-secondary);
+  background: var(--color-navbar-text);
   border-radius: 2px;
-  transition: background var(--transition-fast);
-}
-.navbar__toggle:hover .navbar__toggle-bar {
-  background: var(--color-primary);
+  transition: all var(--transition-base);
+  will-change: transform;
 }
 
-/* Mobile menu */
+.navbar__burger--open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar__burger--open span:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar__burger--open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 .navbar__mobile {
   display: none;
-  background: rgba(255, 255, 255, 0.98);
-  border-top: 1px solid var(--color-border);
-  padding: 1rem 0;
-}
-.navbar__mobile--open {
-  display: block;
-}
-.navbar__mobile-list {
-  display: flex;
   flex-direction: column;
-}
-.navbar__mobile-link {
-  display: block;
-  padding: 0.75rem 1.5rem;
-  font-size: var(--fs-base);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: var(--color-secondary);
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: color var(--transition-fast), background var(--transition-fast);
-}
-.navbar__mobile-link:hover,
-.navbar__mobile-link.router-link-active {
-  color: var(--color-primary);
-  background: rgba(200, 149, 42, 0.06);
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--transition-base);
 }
 
-/* Responsive */
-@media (min-width: 900px) {
+.navbar__mobile--open {
+  max-height: 400px;
+}
+
+.navbar__mobile-links {
+  padding: var(--space-sm) 0;
+}
+
+.navbar__mobile-link {
+  display: block;
+  padding: 0.75rem var(--space-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-navbar-text);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.navbar__mobile-link:hover {
+  color: var(--color-primary);
+  background: var(--color-surface);
+}
+
+@media (max-width: 768px) {
   .navbar__nav {
-    display: flex;
-  }
-  .navbar__toggle {
     display: none;
   }
+
+  .navbar__burger {
+    display: flex;
+  }
+
   .navbar__mobile {
-    display: none !important;
+    display: flex;
   }
 }
 </style>
