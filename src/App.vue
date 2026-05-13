@@ -1,9 +1,11 @@
 <template>
-  <AppNavbar />
+  <a href="#main-content" class="skip-link">Saltar al contenido</a>
+  <div></div>
   <RouterView />
-  <AppFooter />
+  <div></div>
 </template>
+
 <script setup>
-import AppNavbar from '@/components/AppNavbar.vue'
-import AppFooter from '@/components/AppFooter.vue'
+
+
 </script>

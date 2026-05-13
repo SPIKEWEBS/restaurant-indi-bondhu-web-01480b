@@ -1,8 +1,75 @@
+/* ============================================================
+   BONDHU — Indian Premium Restaurant
+   Design Tokens / CSS Custom Properties
+   ============================================================ */
+
 :root {
-  --color-primary: #1a1a1a;
+  /* --- Brand Colors --- */
+  --color-primary: #c8952a;        /* warm gold / Indian spice */
+  --color-primary-dark: #a57820;
+  --color-primary-light: #e8b84b;
+  --color-secondary: #2c1a0e;      /* deep brown */
+  --color-accent: #8b1a1a;         /* deep red */
+
+  /* --- Neutrals --- */
   --color-bg: #ffffff;
-  --color-text: #1a1a1a;
-  --color-text-muted: #666;
-  --color-surface: #f9f9f9;
-  --font-body: system-ui, sans-serif;
+  --color-surface: #f7f5f0;        /* warm off-white */
+  --color-surface-dark: #1c1c1c;
+  --color-text: #222222;
+  --color-text-light: #555555;
+  --color-text-muted: #888888;
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-white: #ffffff;
+
+  /* --- Hero / Overlay --- */
+  --color-hero-overlay: rgba(0, 0, 0, 0.52);
+  --color-dark-section: #1a1108;
+
+  /* --- Typography --- */
+  --font-heading: 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Helvetica Neue', Arial, sans-serif;
+  --font-special: 'Georgia', serif;
+
+  /* --- Font Sizes (fluid scale) --- */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.125rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+  --fs-3xl: 2.5rem;
+  --fs-4xl: 3.5rem;
+  --fs-hero: clamp(2.5rem, 8vw, 5rem);
+
+  /* --- Spacing --- */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 5rem;
+  --section-pad-desktop: 80px;
+  --section-pad-mobile: 48px;
+
+  /* --- Layout --- */
+  --container-max: 1200px;
+  --container-pad: 1.5rem;
+  --border-radius: 12px;
+  --border-radius-sm: 6px;
+  --border-radius-lg: 20px;
+
+  /* --- Shadows --- */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.14);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.18);
+
+  /* --- Transitions --- */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* --- Navbar --- */
+  --navbar-height: 64px;
+  --navbar-bg: rgba(255, 255, 255, 0.92);
 }
