@@ -2,7 +2,8 @@
   <header class="navbar" :class="{ 'navbar--scrolled': scrolled }">
     <div class="navbar__container">
       <RouterLink to="/" class="navbar__brand" aria-label="Bondhu Indian Premium Restaurant - Inicio">
-        <span class="navbar__brand-text">Indian Premium Restaurant</span>
+        <span class="navbar__brand-name">BONDHU</span>
+        <span class="navbar__brand-sub">Indian Premium Restaurant</span>
       </RouterLink>
 
       <nav class="navbar__nav" aria-label="Menú principal">
@@ -96,14 +97,16 @@ onUnmounted(() => {
   right: 0;
   z-index: 1000;
   background: var(--color-navbar-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(200, 169, 110, 0.2);
-  transition: box-shadow var(--transition-base);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(200, 169, 110, 0.18);
+  transition: background var(--transition-base), box-shadow var(--transition-base);
 }
 
 .navbar--scrolled {
-  box-shadow: var(--shadow-md);
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.10);
+  border-bottom-color: rgba(200, 169, 110, 0.3);
 }
 
 .navbar__container {
@@ -114,21 +117,34 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-md);
 }
 
 .navbar__brand {
   display: flex;
   flex-direction: column;
   text-decoration: none;
+  line-height: 1.1;
 }
 
-.navbar__brand-text {
-  font-family: var(--font-body);
-  font-size: var(--font-size-sm);
+.navbar__brand-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
   color: var(--color-primary);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-weight: 600;
+  line-height: 1;
+}
+
+.navbar__brand-sub {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 2px;
 }
 
 .navbar__nav {
@@ -139,25 +155,45 @@ onUnmounted(() => {
 .navbar__links {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: 0.25rem;
 }
 
 .navbar__link {
   font-family: var(--font-body);
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   color: var(--color-navbar-text);
   text-decoration: none;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   font-weight: 600;
-  padding: 0.25rem 0;
+  padding: 0.4rem 0.65rem;
+  border-radius: 6px;
   border-bottom: 2px solid transparent;
   transition: all var(--transition-fast);
+  position: relative;
+}
+
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 2px;
+  transition: width var(--transition-fast);
+}
+
+.navbar__link:hover::after,
+.navbar__link--active::after {
+  width: 70%;
 }
 
 .navbar__link:hover,
 .navbar__link--active {
   color: var(--color-primary);
-  border-bottom-color: var(--color-primary);
+  background: rgba(200, 169, 110, 0.07);
 }
 
 .navbar__burger {
@@ -168,6 +204,7 @@ onUnmounted(() => {
   background: none;
   border: none;
   padding: 0.5rem;
+  border-radius: 6px;
 }
 
 .navbar__burger span {
@@ -186,6 +223,7 @@ onUnmounted(() => {
 
 .navbar__burger--open span:nth-child(2) {
   opacity: 0;
+  transform: scaleX(0);
 }
 
 .navbar__burger--open span:nth-child(3) {
@@ -196,10 +234,10 @@ onUnmounted(() => {
   display: none;
   flex-direction: column;
   background: var(--color-bg);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border-gold);
   max-height: 0;
   overflow: hidden;
-  transition: max-height var(--transition-base);
+  transition: max-height 0.35s ease;
 }
 
 .navbar__mobile--open {
@@ -212,21 +250,24 @@ onUnmounted(() => {
 
 .navbar__mobile-link {
   display: block;
-  padding: 0.75rem var(--space-md);
+  padding: 0.85rem var(--space-md);
   font-size: var(--font-size-sm);
   color: var(--color-navbar-text);
   text-decoration: none;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
   font-weight: 600;
-  transition: color var(--transition-fast);
+  transition: all var(--transition-fast);
+  border-left: 3px solid transparent;
 }
 
 .navbar__mobile-link:hover {
   color: var(--color-primary);
   background: var(--color-surface);
+  border-left-color: var(--color-primary);
+  padding-left: calc(var(--space-md) + 6px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .navbar__nav {
     display: none;
   }

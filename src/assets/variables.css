@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600&display=swap');
+
 /* =============================================
    BONDHU Indian Premium Restaurant — Variables
    ============================================= */
@@ -6,32 +8,37 @@
   /* Colors */
   --color-primary: #c8a96e;       /* Gold/warm amber — Indian accent */
   --color-primary-dark: #a8893e;
+  --color-primary-light: rgba(200, 169, 110, 0.12);
   --color-secondary: #8b0000;     /* Deep red */
+  --color-secondary-light: rgba(139, 0, 0, 0.08);
   --color-bg: #ffffff;
-  --color-surface: #f5f3ef;
+  --color-surface: #f7f5f0;
+  --color-surface-alt: #fdf9f3;
   --color-surface-dark: #1a1a1a;
-  --color-text: #333333;
-  --color-text-light: #666666;
-  --color-text-muted: #999999;
-  --color-heading: #222222;
-  --color-heading-dark: #111111;
-  --color-border: rgba(0, 0, 0, 0.1);
+  --color-text: #1a1a1a;
+  --color-text-light: #4a4a4a;
+  --color-text-muted: #7a7a7a;
+  --color-heading: #111111;
+  --color-heading-dark: #0a0a0a;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-gold: rgba(200, 169, 110, 0.25);
   --color-overlay: rgba(0, 0, 0, 0.55);
-  --color-overlay-hero: rgba(0, 0, 0, 0.45);
-  --color-footer-bg: #ffffff;
-  --color-navbar-bg: rgba(255, 255, 255, 0.95);
-  --color-navbar-text: #333333;
+  --color-overlay-hero: rgba(15, 8, 0, 0.52);
+  --color-footer-bg: #fdf9f3;
+  --color-navbar-bg: rgba(255, 255, 255, 0.92);
+  --color-navbar-scrolled: rgba(10, 5, 0, 0.88);
+  --color-navbar-text: #222222;
   --color-navbar-active: #c8a96e;
-  --color-cookie-bg: #2c2c2c;
-  --color-cookie-text: #f0f0f0;
+  --color-cookie-bg: #1e1409;
+  --color-cookie-text: #f0ebe0;
   --color-btn-primary: #c8a96e;
   --color-btn-primary-text: #ffffff;
   --color-btn-secondary: #ffffff;
   --color-btn-secondary-text: #333333;
 
   /* Typography */
-  --font-heading: 'Georgia', 'Times New Roman', serif;
-  --font-body: 'Arial', 'Helvetica Neue', sans-serif;
+  --font-heading: 'Poppins', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
   --font-size-base: 16px;
   --font-size-sm: 0.875rem;
   --font-size-lg: 1.125rem;
@@ -48,22 +55,28 @@
   --space-lg: 2rem;
   --space-xl: 3rem;
   --space-2xl: 5rem;
-  --section-padding: 80px;
-  --section-padding-mobile: 48px;
+  --section-padding: 96px;
+  --section-padding-mobile: 56px;
 
   /* Layout */
   --container-max: 1200px;
-  --navbar-height: 70px;
+  --navbar-height: 72px;
   --border-radius: 12px;
-  --border-radius-sm: 6px;
+  --border-radius-sm: 8px;
   --border-radius-lg: 20px;
+  --radius-card: 14px;
+  --radius-btn: 8px;
 
   /* Transitions */
   --transition-fast: 0.2s ease;
   --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
 
   /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 20px rgba(0,0,0,0.12);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,0.18);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.10);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.16);
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.08);
+  --shadow-card-hover: 0 12px 40px rgba(0,0,0,0.15);
+  --shadow-gold: 0 4px 24px rgba(200, 169, 110, 0.25);
 }

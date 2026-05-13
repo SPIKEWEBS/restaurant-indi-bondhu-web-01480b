@@ -3,7 +3,9 @@
     <div class="carta-page__hero">
       <div class="carta-page__hero-overlay"></div>
       <div class="carta-page__hero-content">
+        <span class="carta-page__eyebrow">Bondhu Indian Premium Restaurant</span>
         <h1 class="carta-page__title">{{ siteData.carta.titulo }}</h1>
+        <span class="carta-page__title-line" aria-hidden="true"></span>
       </div>
     </div>
 
@@ -61,17 +63,28 @@ onMounted(() => {
 
 .carta-page__hero {
   position: relative;
-  background: linear-gradient(135deg, var(--color-surface-dark) 0%, #2d1b00 100%);
-  min-height: 300px;
+  background: linear-gradient(160deg, #1a0e02 0%, #0f0600 55%, #2a1500 100%);
+  min-height: 340px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+.carta-page__hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 80% at 15% 60%, rgba(200,169,110,0.15) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 60% at 85% 30%, rgba(139,0,0,0.20) 0%, transparent 65%);
+  pointer-events: none;
 }
 
 .carta-page__hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .carta-page__hero-content {
@@ -79,13 +92,36 @@ onMounted(() => {
   z-index: 1;
   text-align: center;
   padding: var(--space-2xl) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.carta-page__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(200, 169, 110, 0.8);
 }
 
 .carta-page__title {
   font-family: var(--font-heading);
   font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 800;
   color: #fff;
   letter-spacing: 0.1em;
+}
+
+.carta-page__title-line {
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  border-radius: 2px;
+  margin-top: 0.5rem;
 }
 
 .carta-page__body {
