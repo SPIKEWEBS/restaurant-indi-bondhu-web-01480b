@@ -8,7 +8,7 @@
 
     <div class="footer__container">
       <!-- Brand mark -->
-      <div class="footer__brand">
+      <div class="footer__brand reveal">
         <span class="footer__brand-name">BONDHU</span>
         <span class="footer__brand-sub">Indian Premium Restaurant · Ferreries</span>
         <div class="footer__divider"></div>
@@ -17,7 +17,7 @@
       <!-- Contact & Hours grid -->
       <div class="footer__grid">
         <!-- Where we are -->
-        <div class="footer__block">
+        <div class="footer__block reveal reveal-delay-1">
           <h2 class="footer__heading">
             Dónde estamos
             <span class="footer__heading-line"></span>
@@ -46,7 +46,7 @@
         </div>
 
         <!-- Hours -->
-        <div class="footer__block">
+        <div class="footer__block reveal reveal-delay-2">
           <h2 class="footer__heading">
             Nuestros horarios
             <span class="footer__heading-line"></span>
@@ -88,10 +88,46 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import siteData from '../data/siteData.js'
+
+onMounted(() => {
+  // Safety fallback
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'))
+  }, 1500)
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.1 }
+  )
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+})
 </script>
 
 <style scoped>
+/* Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-1 { transition-delay: 0.12s; }
+.reveal-delay-2 { transition-delay: 0.24s; }
+
 .footer {
   background: var(--color-footer-bg);
   position: relative;
@@ -101,7 +137,6 @@ import siteData from '../data/siteData.js'
 .footer__wave {
   background: var(--color-surface);
   line-height: 0;
-  margin-bottom: 0;
 }
 
 .footer__wave svg {
@@ -124,10 +159,13 @@ import siteData from '../data/siteData.js'
 .footer__brand-name {
   display: block;
   font-family: var(--font-heading);
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-weight: 800;
-  letter-spacing: 0.18em;
-  color: var(--color-primary);
+  letter-spacing: 0.2em;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #e8c882 55%, var(--color-primary-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   line-height: 1;
 }
 
@@ -135,14 +173,14 @@ import siteData from '../data/siteData.js'
   display: block;
   font-family: var(--font-body);
   font-size: 0.75rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-text-muted);
   margin-top: 0.4rem;
 }
 
 .footer__divider {
-  width: 60px;
+  width: 70px;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
   margin: var(--space-sm) auto 0;
@@ -171,7 +209,7 @@ import siteData from '../data/siteData.js'
   display: block;
   width: 40px;
   height: 2px;
-  background: var(--color-primary);
+  background: linear-gradient(90deg, var(--color-primary), transparent);
   border-radius: 2px;
   margin-top: 6px;
 }
@@ -190,11 +228,13 @@ import siteData from '../data/siteData.js'
   background: var(--color-surface);
   border: 1px solid var(--color-border-gold);
   border-radius: var(--border-radius);
-  transition: box-shadow var(--transition-fast);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .footer__info-item:hover {
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 6px 24px rgba(200, 169, 110, 0.14);
+  border-color: rgba(200, 169, 110, 0.4);
+  transform: translateX(3px);
 }
 
 .footer__icon {
@@ -229,6 +269,12 @@ import siteData from '../data/siteData.js'
   background: var(--color-surface);
   border: 1px solid var(--color-border-gold);
   border-radius: var(--border-radius);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer__hours-chip:hover {
+  box-shadow: 0 6px 24px rgba(200, 169, 110, 0.12);
+  transform: translateX(3px);
 }
 
 .footer__hours-time {
@@ -239,6 +285,10 @@ import siteData from '../data/siteData.js'
 .footer__hours-chip--closed {
   border-color: rgba(139, 0, 0, 0.18);
   background: rgba(139, 0, 0, 0.04);
+}
+
+.footer__hours-chip--closed:hover {
+  box-shadow: 0 4px 16px rgba(139, 0, 0, 0.08);
 }
 
 .footer__legal {
@@ -280,7 +330,7 @@ import siteData from '../data/siteData.js'
   color: var(--color-text-muted);
   font-size: 0.78rem;
   padding-top: var(--space-sm);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 @media (max-width: 768px) {
@@ -297,6 +347,14 @@ import siteData from '../data/siteData.js'
 
   .footer__legal-links li:not(:last-child)::after {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 </style>

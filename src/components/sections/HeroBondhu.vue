@@ -1,6 +1,6 @@
 <template>
   <section class="hero" aria-label="Portada Bondhu Indian Premium Restaurant">
-    <div class="hero__bg">
+    <div class="hero__bg" ref="heroBgRef">
       <img
         :src="siteData.hero.imagen"
         :alt="siteData.hero.imagenAlt"
@@ -14,26 +14,31 @@
 
     <!-- Decorative glow blob -->
     <div class="hero__glow" aria-hidden="true"></div>
+    <div class="hero__glow hero__glow--2" aria-hidden="true"></div>
 
     <div class="hero__content">
       <!-- Eyebrow -->
-      <div class="hero__eyebrow">
+      <div class="hero__eyebrow reveal reveal-delay-0">
         <span class="hero__eyebrow-dot"></span>
         Indian Premium Restaurant
         <span class="hero__eyebrow-dot"></span>
       </div>
 
-      <h1 class="hero__title">{{ siteData.hero.titulo }}</h1>
-      <p class="hero__tagline">{{ siteData.hero.descripcion }}</p>
+      <h1 class="hero__title reveal reveal-delay-1">{{ siteData.hero.titulo }}</h1>
+
+      <!-- Typewriter tagline -->
+      <p class="hero__tagline reveal reveal-delay-2">
+        <span class="hero__typewriter">{{ typewriterText }}</span><span class="hero__cursor" aria-hidden="true">|</span>
+      </p>
 
       <!-- CTA row -->
-      <div class="hero__actions">
+      <div class="hero__actions reveal reveal-delay-3">
         <a
           :href="siteData.telefonoHref"
           class="hero__cta-btn"
           aria-label="Reservar mesa en Bondhu Restaurant"
         >
-          Reservar Mesa
+          ☎ Reservar Mesa
         </a>
 
         <!-- Google Rating badge -->
@@ -53,7 +58,76 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
 import siteData from '../../data/siteData.js'
+
+const heroBgRef = ref(null)
+let rafId = null
+
+// Parallax on scroll
+function onScroll() {
+  if (!heroBgRef.value) return
+  const y = window.scrollY
+  heroBgRef.value.style.transform = `translateY(${y * 0.3}px)`
+}
+
+// Typewriter
+const phrases = [
+  'Los sabores de la India en Menorca',
+  'Recetas auténticas de Tandoori',
+  'Curry · Biryanis · Balti · Naan',
+  'Un ambiente sofisticado y acogedor',
+]
+const typewriterText = ref('')
+let phraseIdx = 0
+let charIdx = 0
+let isDeleting = false
+let twTimer = null
+
+function typeStep() {
+  const current = phrases[phraseIdx]
+  if (!isDeleting) {
+    typewriterText.value = current.slice(0, charIdx + 1)
+    charIdx++
+    if (charIdx === current.length) {
+      isDeleting = true
+      twTimer = setTimeout(typeStep, 2000)
+      return
+    }
+  } else {
+    typewriterText.value = current.slice(0, charIdx - 1)
+    charIdx--
+    if (charIdx === 0) {
+      isDeleting = false
+      phraseIdx = (phraseIdx + 1) % phrases.length
+    }
+  }
+  twTimer = setTimeout(typeStep, isDeleting ? 42 : 68)
+}
+
+onMounted(() => {
+  // Parallax
+  window.addEventListener('scroll', onScroll, { passive: true })
+
+  // Scroll reveal fallback
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'))
+  }, 1500)
+
+  // Reveal elements already in view
+  document.querySelectorAll('.reveal').forEach(el => {
+    const rect = el.getBoundingClientRect()
+    if (rect.top < window.innerHeight) el.classList.add('visible')
+  })
+
+  // Typewriter
+  twTimer = setTimeout(typeStep, 600)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScroll)
+  if (twTimer) clearTimeout(twTimer)
+})
 </script>
 
 <style scoped>
@@ -62,15 +136,42 @@ import siteData from '../../data/siteData.js'
   50% { transform: translateY(-24px) scale(1.06); }
 }
 
+@keyframes floatBlob2 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(20px) scale(1.08); }
+}
+
 @keyframes scrollPulse {
   0%, 100% { opacity: 0.4; transform: scaleY(1); }
-  50% { opacity: 1; transform: scaleY(1.3); }
+  50% { opacity: 1; transform: scaleY(1.35); }
 }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Reveal system */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-0 { transition-delay: 0.05s; }
+.reveal-delay-1 { transition-delay: 0.18s; }
+.reveal-delay-2 { transition-delay: 0.32s; }
+.reveal-delay-3 { transition-delay: 0.46s; }
 
 .hero {
   position: relative;
@@ -87,11 +188,12 @@ import siteData from '../../data/siteData.js'
   position: absolute;
   inset: 0;
   z-index: 0;
+  will-change: transform;
 }
 
 .hero__img {
   width: 100%;
-  height: 100%;
+  height: 110%;
   object-fit: cover;
   display: block;
 }
@@ -101,26 +203,37 @@ import siteData from '../../data/siteData.js'
   inset: 0;
   background: linear-gradient(
     170deg,
-    rgba(15, 8, 0, 0.62) 0%,
-    rgba(10, 4, 0, 0.48) 50%,
-    rgba(80, 30, 0, 0.55) 100%
+    rgba(15, 8, 0, 0.68) 0%,
+    rgba(10, 4, 0, 0.50) 50%,
+    rgba(80, 30, 0, 0.60) 100%
   );
 }
 
-/* Glow blob */
+/* Glow blobs */
 .hero__glow {
   position: absolute;
   bottom: 15%;
   left: 50%;
   transform: translateX(-50%);
-  width: 600px;
-  height: 300px;
-  background: radial-gradient(ellipse, rgba(200, 169, 110, 0.22) 0%, transparent 70%);
+  width: 650px;
+  height: 320px;
+  background: radial-gradient(ellipse, rgba(200, 169, 110, 0.24) 0%, transparent 70%);
   border-radius: 50%;
-  filter: blur(40px);
+  filter: blur(42px);
   animation: floatBlob 7s ease-in-out infinite;
   z-index: 1;
   pointer-events: none;
+}
+
+.hero__glow--2 {
+  top: 10%;
+  right: 10%;
+  left: auto;
+  transform: none;
+  width: 380px;
+  height: 260px;
+  background: radial-gradient(ellipse, rgba(139, 0, 0, 0.18) 0%, transparent 70%);
+  animation: floatBlob2 9s ease-in-out infinite;
 }
 
 .hero__content {
@@ -129,8 +242,7 @@ import siteData from '../../data/siteData.js'
   text-align: center;
   color: #fff;
   padding: var(--space-xl) var(--space-md);
-  max-width: 820px;
-  animation: fadeUp 0.9s ease both;
+  max-width: 860px;
 }
 
 /* Eyebrow */
@@ -141,12 +253,12 @@ import siteData from '../../data/siteData.js'
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--color-primary);
   margin-bottom: var(--space-md);
-  padding: 0.4rem 1.1rem;
-  border: 1px solid rgba(200, 169, 110, 0.35);
+  padding: 0.4rem 1.2rem;
+  border: 1px solid rgba(200, 169, 110, 0.38);
   border-radius: 100px;
   backdrop-filter: blur(8px);
   background: rgba(200, 169, 110, 0.08);
@@ -167,14 +279,18 @@ import siteData from '../../data/siteData.js'
   font-size: clamp(3.5rem, 11vw, 7.5rem);
   font-weight: 800;
   color: #fff;
-  letter-spacing: 0.14em;
-  text-shadow: 0 4px 32px rgba(0,0,0,0.45);
+  letter-spacing: 0.16em;
+  text-shadow: 0 4px 40px rgba(0,0,0,0.5);
   margin-bottom: var(--space-md);
   line-height: 1;
   will-change: transform;
+  background: linear-gradient(160deg, #fff 30%, rgba(232,200,130,0.9) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Tagline */
+/* Tagline / typewriter */
 .hero__tagline {
   font-family: var(--font-heading);
   font-size: clamp(1rem, 2.2vw, 1.35rem);
@@ -183,9 +299,25 @@ import siteData from '../../data/siteData.js'
   font-weight: 400;
   letter-spacing: 0.03em;
   line-height: 1.7;
-  max-width: 560px;
+  max-width: 580px;
   margin: 0 auto var(--space-xl);
-  opacity: 0.9;
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.hero__typewriter {
+  display: inline;
+}
+
+.hero__cursor {
+  display: inline-block;
+  color: var(--color-primary);
+  font-weight: 300;
+  animation: blink 1.1s step-end infinite;
+  margin-left: 1px;
 }
 
 /* Actions row */
@@ -202,25 +334,40 @@ import siteData from '../../data/siteData.js'
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.95rem 2.4rem;
+  gap: 0.45rem;
+  padding: 1rem 2.5rem;
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: #fff;
   font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   border-radius: var(--radius-btn);
   text-decoration: none;
-  box-shadow: 0 6px 28px rgba(200, 169, 110, 0.45);
-  transition: all var(--transition-base);
+  box-shadow: 0 6px 30px rgba(200, 169, 110, 0.45);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__cta-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.hero__cta-btn:hover::before {
+  opacity: 1;
 }
 
 .hero__cta-btn:hover {
-  background: linear-gradient(135deg, #e0be80 0%, var(--color-primary) 100%);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 36px rgba(200, 169, 110, 0.55);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 40px rgba(200, 169, 110, 0.55);
   color: #fff;
 }
 
@@ -229,13 +376,19 @@ import siteData from '../../data/siteData.js'
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.6rem 1.1rem;
+  padding: 0.65rem 1.2rem;
   background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 100px;
   color: #fff;
+  transition: all var(--transition-fast);
+}
+
+.hero__rating:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(200, 169, 110, 0.5);
 }
 
 .hero__rating-star {
@@ -245,7 +398,7 @@ import siteData from '../../data/siteData.js'
 
 .hero__rating-score {
   font-family: var(--font-heading);
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--color-primary);
 }
@@ -268,11 +421,11 @@ import siteData from '../../data/siteData.js'
 .hero__scroll-line {
   display: block;
   width: 2px;
-  height: 48px;
-  background: linear-gradient(to bottom, rgba(200,169,110,0.8), transparent);
+  height: 52px;
+  background: linear-gradient(to bottom, rgba(200,169,110,0.85), transparent);
   border-radius: 2px;
   margin: 0 auto;
-  animation: scrollPulse 2s ease-in-out infinite;
+  animation: scrollPulse 2.2s ease-in-out infinite;
 }
 
 @media (max-width: 768px) {
@@ -285,9 +438,34 @@ import siteData from '../../data/siteData.js'
     height: 200px;
   }
 
+  .hero__glow--2 {
+    display: none;
+  }
+
   .hero__actions {
     flex-direction: column;
     gap: 0.75rem;
+  }
+
+  .hero__title {
+    -webkit-text-fill-color: #fff;
+    background: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .hero__glow,
+  .hero__glow--2,
+  .hero__scroll-line {
+    animation: none;
+  }
+  .hero__cursor {
+    animation: none;
   }
 }
 </style>

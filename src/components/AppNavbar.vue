@@ -97,16 +97,19 @@ onUnmounted(() => {
   right: 0;
   z-index: 1000;
   background: var(--color-navbar-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid rgba(200, 169, 110, 0.18);
-  transition: background var(--transition-base), box-shadow var(--transition-base);
+  transition:
+    background var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
 }
 
 .navbar--scrolled {
   background: rgba(255, 255, 255, 0.97);
-  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.10);
-  border-bottom-color: rgba(200, 169, 110, 0.3);
+  box-shadow: 0 2px 32px rgba(0, 0, 0, 0.12);
+  border-bottom-color: rgba(200, 169, 110, 0.35);
 }
 
 .navbar__container {
@@ -125,6 +128,11 @@ onUnmounted(() => {
   flex-direction: column;
   text-decoration: none;
   line-height: 1.1;
+  transition: opacity var(--transition-fast);
+}
+
+.navbar__brand:hover {
+  opacity: 0.85;
 }
 
 .navbar__brand-name {
@@ -132,16 +140,20 @@ onUnmounted(() => {
   font-size: 1.25rem;
   font-weight: 800;
   color: var(--color-primary);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   line-height: 1;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #e8c882 60%, var(--color-primary-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .navbar__brand-sub {
   font-family: var(--font-body);
   font-size: 0.6rem;
   color: var(--color-text-muted);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   font-weight: 500;
   margin-top: 2px;
@@ -155,7 +167,7 @@ onUnmounted(() => {
 .navbar__links {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.15rem;
 }
 
 .navbar__link {
@@ -165,7 +177,7 @@ onUnmounted(() => {
   text-decoration: none;
   letter-spacing: 0.08em;
   font-weight: 600;
-  padding: 0.4rem 0.65rem;
+  padding: 0.4rem 0.7rem;
   border-radius: 6px;
   border-bottom: 2px solid transparent;
   transition: all var(--transition-fast);
@@ -180,22 +192,23 @@ onUnmounted(() => {
   transform: translateX(-50%);
   width: 0;
   height: 2px;
-  background: var(--color-primary);
+  background: linear-gradient(90deg, var(--color-primary), #e8c882);
   border-radius: 2px;
-  transition: width var(--transition-fast);
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .navbar__link:hover::after,
 .navbar__link--active::after {
-  width: 70%;
+  width: 72%;
 }
 
 .navbar__link:hover,
 .navbar__link--active {
   color: var(--color-primary);
-  background: rgba(200, 169, 110, 0.07);
+  background: rgba(200, 169, 110, 0.08);
 }
 
+/* Burger */
 .navbar__burger {
   display: none;
   flex-direction: column;
@@ -205,6 +218,11 @@ onUnmounted(() => {
   border: none;
   padding: 0.5rem;
   border-radius: 6px;
+  transition: background var(--transition-fast);
+}
+
+.navbar__burger:hover {
+  background: rgba(200, 169, 110, 0.08);
 }
 
 .navbar__burger span {
@@ -219,6 +237,7 @@ onUnmounted(() => {
 
 .navbar__burger--open span:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
+  background: var(--color-primary);
 }
 
 .navbar__burger--open span:nth-child(2) {
@@ -228,20 +247,22 @@ onUnmounted(() => {
 
 .navbar__burger--open span:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
+  background: var(--color-primary);
 }
 
 .navbar__mobile {
   display: none;
   flex-direction: column;
-  background: var(--color-bg);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(16px);
   border-top: 1px solid var(--color-border-gold);
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.35s ease;
+  transition: max-height 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .navbar__mobile--open {
-  max-height: 400px;
+  max-height: 420px;
 }
 
 .navbar__mobile-links {
@@ -256,7 +277,7 @@ onUnmounted(() => {
   text-decoration: none;
   letter-spacing: 0.07em;
   font-weight: 600;
-  transition: all var(--transition-fast);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   border-left: 3px solid transparent;
 }
 
@@ -264,7 +285,7 @@ onUnmounted(() => {
   color: var(--color-primary);
   background: var(--color-surface);
   border-left-color: var(--color-primary);
-  padding-left: calc(var(--space-md) + 6px);
+  padding-left: calc(var(--space-md) + 8px);
 }
 
 @media (max-width: 900px) {
