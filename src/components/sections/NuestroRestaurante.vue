@@ -1,26 +1,31 @@
 <template>
   <section class="restaurante" aria-labelledby="restaurante-heading">
     <div class="restaurante__container">
-      <p class="restaurante__eyebrow">Espacios únicos</p>
-      <h2 id="restaurante-heading" class="restaurante__title">NUESTRO RESTAURANTE</h2>
-      <div class="section-divider"></div>
-      <h3 class="restaurante__subtitle">DIFERENTES ESPACIOS PARA CADA OCASIÓN</h3>
-      <p class="restaurante__text">
+      <p class="restaurante__eyebrow reveal">Espacios únicos</p>
+      <h2 id="restaurante-heading" class="restaurante__title reveal reveal-delay-1">NUESTRO RESTAURANTE</h2>
+      <div class="section-divider reveal reveal-delay-1"></div>
+      <h3 class="restaurante__subtitle reveal reveal-delay-2">DIFERENTES ESPACIOS PARA CADA OCASIÓN</h3>
+      <p class="restaurante__text reveal reveal-delay-2">
         Aquí puedes ver nuestro restaurante y elegir el lugar que mas te apetezca, para un grupo, más romántico, totalmente a tu gusto.
       </p>
-      <p class="restaurante__text">
+      <p class="restaurante__text reveal reveal-delay-3">
         Elige tu mesa y coméntanoslo en tu reserva online o telefónica.
       </p>
 
       <!-- Feature chips -->
       <div class="restaurante__features">
-        <div class="restaurante__feature" v-for="f in features" :key="f.label">
+        <div
+          class="restaurante__feature reveal"
+          v-for="(f, i) in features"
+          :key="f.label"
+          :class="`reveal-delay-${i + 1}`"
+        >
           <span class="restaurante__feature-icon" aria-hidden="true">{{ f.icon }}</span>
           <span class="restaurante__feature-label">{{ f.label }}</span>
         </div>
       </div>
 
-      <div class="restaurante__cta">
+      <div class="restaurante__cta reveal reveal-delay-3">
         <a
           :href="`tel:${site.telefonoRaw}`"
           class="btn btn-primary"
@@ -41,13 +46,35 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import site from '../../data/siteData.js'
+
 const features = [
   { icon: '🪑', label: 'Comedor interior acogedor' },
   { icon: '☀️', label: 'Terraza al aire libre' },
   { icon: '🎭', label: 'Decoración hindú auténtica' },
   { icon: '👥', label: 'Ideal para grupos' },
 ]
+
+onMounted(() => {
+  const revealEls = document.querySelectorAll('.reveal')
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.1 }
+  )
+  revealEls.forEach((el) => observer.observe(el))
+
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'))
+  }, 1500)
+})
 </script>
 
 <style scoped>
@@ -64,10 +91,10 @@ const features = [
   bottom: -60px;
   left: 50%;
   transform: translateX(-50%);
-  width: 500px;
-  height: 500px;
+  width: 520px;
+  height: 520px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(139, 26, 26, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 26, 26, 0.07) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -146,12 +173,18 @@ const features = [
   font-weight: 500;
   color: var(--color-text);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-fast), box-shadow var(--transition-base);
+  transition:
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base),
+    background var(--transition-base);
 }
 
 .restaurante__feature:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 0 24px rgba(var(--color-primary-rgb), 0.15), var(--shadow-card);
+  border-color: rgba(var(--color-primary-rgb), 0.2);
+  background: rgba(var(--color-primary-rgb), 0.03);
 }
 
 .restaurante__feature-icon {
@@ -179,15 +212,18 @@ const features = [
   color: var(--color-primary);
   background: transparent;
   text-decoration: none;
-  transition: background var(--transition-base), color var(--transition-base),
-    transform var(--transition-fast), box-shadow var(--transition-base);
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow var(--transition-base);
 }
 
 .btn-outline-dark:hover {
   background: var(--color-primary);
   color: var(--color-text-light);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 28px rgba(var(--color-primary-rgb), 0.35);
 }
 
 @media (min-width: 768px) {

@@ -6,8 +6,10 @@
   --color-primary: #8b1a1a;
   --color-primary-dark: #6b1212;
   --color-primary-light: #c0392b;
+  --color-primary-rgb: 139, 26, 26;
   --color-secondary: #d4a017;
   --color-accent: #d4a017;
+  --color-accent-rgb: 212, 160, 23;
   --color-accent-light: #f0c040;
   --color-accent-glow: rgba(212, 160, 23, 0.35);
 

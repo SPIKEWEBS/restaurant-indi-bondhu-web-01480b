@@ -1,16 +1,19 @@
 <template>
   <section class="horarios" aria-labelledby="horarios-heading">
     <div class="horarios__container">
-      <p class="horarios__eyebrow">Planifica tu visita</p>
-      <h2 id="horarios-heading" class="horarios__title">Nuestros horarios</h2>
-      <div class="section-divider"></div>
+      <p class="horarios__eyebrow reveal">Planifica tu visita</p>
+      <h2 id="horarios-heading" class="horarios__title reveal reveal-delay-1">Nuestros horarios</h2>
+      <div class="section-divider reveal reveal-delay-1"></div>
 
       <div class="horarios__grid">
         <div
           v-for="(item, index) in site.horarios"
           :key="index"
-          class="horarios__card"
-          :class="{ 'horarios__card--closed': item.franjas[0] === 'Cerrado' }"
+          class="horarios__card reveal"
+          :class="[
+            { 'horarios__card--closed': item.franjas[0] === 'Cerrado' },
+            `reveal-delay-${index + 2}`
+          ]"
         >
           <div class="horarios__card-header">
             <span class="horarios__icon" aria-hidden="true">
@@ -35,7 +38,28 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import site from '../../data/siteData.js'
+
+onMounted(() => {
+  const revealEls = document.querySelectorAll('.reveal')
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.1 }
+  )
+  revealEls.forEach((el) => observer.observe(el))
+
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'))
+  }, 1500)
+})
 </script>
 
 <style scoped>
@@ -92,7 +116,9 @@ import site from '../../data/siteData.js'
   gap: 1rem;
   text-align: center;
   box-shadow: var(--shadow-card);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
 }
@@ -106,15 +132,20 @@ import site from '../../data/siteData.js'
   height: 4px;
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
   border-radius: var(--radius-card) var(--radius-card) 0 0;
+  transition: height var(--transition-base);
+}
+
+.horarios__card:hover::before {
+  height: 5px;
 }
 
 .horarios__card--closed::before {
-  background: rgba(139, 26, 26, 0.25);
+  background: rgba(139, 26, 26, 0.28);
 }
 
 .horarios__card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 0 36px rgba(var(--color-primary-rgb), 0.16), var(--shadow-card-hover);
 }
 
 .horarios__card-header {
@@ -125,8 +156,13 @@ import site from '../../data/siteData.js'
 }
 
 .horarios__icon {
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   line-height: 1;
+  transition: transform var(--transition-base);
+}
+
+.horarios__card:hover .horarios__icon {
+  transform: scale(1.12) rotate(-5deg);
 }
 
 .horarios__dias {
@@ -153,6 +189,12 @@ import site from '../../data/siteData.js'
   display: block;
   font-weight: 500;
   border: 1px solid var(--color-border-light);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.horarios__card:hover .horarios__franja:not(.horarios__franja--closed) {
+  background: rgba(var(--color-primary-rgb), 0.04);
+  color: var(--color-text);
 }
 
 .horarios__franja--closed {

@@ -3,6 +3,7 @@
     <!-- Background -->
     <div class="hero__bg">
       <img
+        ref="heroImgRef"
         :src="site.images.hero"
         alt="Interior del restaurante Bondhu Indian Premium Restaurant en Ferreries"
         class="hero__img"
@@ -18,7 +19,7 @@
     <div class="hero__blob hero__blob--right" aria-hidden="true"></div>
 
     <!-- Content -->
-    <div class="hero__content">
+    <div class="hero__content" :class="{ 'hero__content--visible': contentVisible }">
       <!-- Rating badge -->
       <div class="hero__rating-badge" aria-label="Valoración Google: 4.8 sobre 5">
         <span class="hero__rating-star" aria-hidden="true">⭐</span>
@@ -44,8 +45,8 @@
       <!-- Title -->
       <h1 class="hero__title">{{ site.nombreCorto }}</h1>
 
-      <!-- Subtitle -->
-      <p class="hero__subtitle">{{ site.subtitulo }}</p>
+      <!-- Subtitle typewriter -->
+      <p class="hero__subtitle" aria-label="Indian Premium Restaurant">{{ displayedSubtitle }}<span class="hero__cursor" aria-hidden="true">|</span></p>
 
       <!-- Tagline -->
       <p class="hero__tagline">{{ site.tagline }}</p>
@@ -73,7 +74,78 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
 import site from '../../data/siteData.js'
+
+const heroImgRef = ref(null)
+const contentVisible = ref(false)
+
+// Typewriter
+const typewriterWords = ['Indian Premium Restaurant', 'Tandoori · Curry · Naan', 'Biryanis · Balti · Masala', 'La India en Menorca']
+let twIndex = 0
+let twCharIndex = 0
+let twDeleting = false
+let twTimer = null
+const displayedSubtitle = ref('')
+
+function typewriterTick() {
+  const current = typewriterWords[twIndex]
+  if (!twDeleting) {
+    twCharIndex++
+    displayedSubtitle.value = current.slice(0, twCharIndex)
+    if (twCharIndex === current.length) {
+      twDeleting = true
+      twTimer = setTimeout(typewriterTick, 1800)
+      return
+    }
+    twTimer = setTimeout(typewriterTick, 60)
+  } else {
+    twCharIndex--
+    displayedSubtitle.value = current.slice(0, twCharIndex)
+    if (twCharIndex === 0) {
+      twDeleting = false
+      twIndex = (twIndex + 1) % typewriterWords.length
+      twTimer = setTimeout(typewriterTick, 400)
+      return
+    }
+    twTimer = setTimeout(typewriterTick, 32)
+  }
+}
+
+// Parallax
+let rafId = null
+function handleParallax() {
+  if (!heroImgRef.value) return
+  const offset = window.scrollY * 0.28
+  heroImgRef.value.style.transform = `scale(1.04) translateY(${offset}px)`
+}
+
+function onScroll() {
+  if (rafId) return
+  rafId = requestAnimationFrame(() => {
+    handleParallax()
+    rafId = null
+  })
+}
+
+onMounted(() => {
+  // Fade-in content
+  requestAnimationFrame(() => {
+    setTimeout(() => { contentVisible.value = true }, 120)
+  })
+
+  // Typewriter start
+  twTimer = setTimeout(typewriterTick, 900)
+
+  // Parallax
+  window.addEventListener('scroll', onScroll, { passive: true })
+})
+
+onUnmounted(() => {
+  clearTimeout(twTimer)
+  window.removeEventListener('scroll', onScroll)
+  if (rafId) cancelAnimationFrame(rafId)
+})
 </script>
 
 <style scoped>
@@ -92,6 +164,7 @@ import site from '../../data/siteData.js'
   position: absolute;
   inset: 0;
   z-index: 0;
+  overflow: hidden;
 }
 
 .hero__img {
@@ -100,6 +173,7 @@ import site from '../../data/siteData.js'
   object-fit: cover;
   transform: scale(1.04);
   will-change: transform;
+  transition: transform 0.1s linear;
 }
 
 .hero__overlay {
@@ -109,15 +183,15 @@ import site from '../../data/siteData.js'
     160deg,
     rgba(10, 4, 0, 0.72) 0%,
     rgba(60, 15, 10, 0.55) 50%,
-    rgba(10, 4, 0, 0.8) 100%
+    rgba(10, 4, 0, 0.82) 100%
   );
 }
 
 /* Glow blobs */
 .hero__blob {
   position: absolute;
-  width: 420px;
-  height: 420px;
+  width: 440px;
+  height: 440px;
   border-radius: 50%;
   z-index: 1;
   pointer-events: none;
@@ -125,14 +199,14 @@ import site from '../../data/siteData.js'
 }
 
 .hero__blob--left {
-  background: radial-gradient(circle, rgba(139, 26, 26, 0.35) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 26, 26, 0.38) 0%, transparent 70%);
   left: -120px;
   top: 20%;
   animation-delay: 0s;
 }
 
 .hero__blob--right {
-  background: radial-gradient(circle, rgba(212, 160, 23, 0.22) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(212, 160, 23, 0.24) 0%, transparent 70%);
   right: -100px;
   bottom: 15%;
   animation-delay: 3.5s;
@@ -140,7 +214,7 @@ import site from '../../data/siteData.js'
 
 @keyframes blobFloat {
   0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-28px) scale(1.05); }
+  50% { transform: translateY(-28px) scale(1.06); }
 }
 
 /* Content */
@@ -155,6 +229,14 @@ import site from '../../data/siteData.js'
   display: flex;
   flex-direction: column;
   align-items: center;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero__content--visible {
+  opacity: 1;
+  transform: none;
 }
 
 /* Rating badge */
@@ -162,15 +244,20 @@ import site from '../../data/siteData.js'
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.11);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 100px;
   padding: 0.4rem 1rem;
   margin-bottom: 1.5rem;
   font-size: 0.82rem;
   letter-spacing: 0.04em;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.hero__rating-badge:hover {
+  transform: scale(1.04);
+  box-shadow: 0 4px 20px rgba(212, 160, 23, 0.25);
 }
 
 .hero__rating-star { font-size: 0.95rem; }
@@ -192,10 +279,15 @@ import site from '../../data/siteData.js'
   object-fit: contain;
   margin: 0 auto;
   border-radius: 50%;
-  border: 2px solid rgba(212, 160, 23, 0.7);
+  border: 2px solid rgba(212, 160, 23, 0.75);
   padding: 5px;
   background: rgba(255, 255, 255, 0.07);
-  box-shadow: 0 0 30px rgba(212, 160, 23, 0.25);
+  box-shadow: 0 0 36px rgba(212, 160, 23, 0.3), 0 0 0 6px rgba(212, 160, 23, 0.08);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+.hero__logo:hover {
+  transform: scale(1.06) rotate(2deg);
+  box-shadow: 0 0 52px rgba(212, 160, 23, 0.45), 0 0 0 10px rgba(212, 160, 23, 0.1);
 }
 
 /* Eyebrow */
@@ -221,10 +313,10 @@ import site from '../../data/siteData.js'
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 2px 20px rgba(212, 160, 23, 0.35));
+  filter: drop-shadow(0 2px 24px rgba(212, 160, 23, 0.38));
 }
 
-/* Subtitle */
+/* Subtitle typewriter */
 .hero__subtitle {
   font-size: clamp(0.85rem, 2vw, 1.1rem);
   letter-spacing: 0.16em;
@@ -232,6 +324,24 @@ import site from '../../data/siteData.js'
   text-transform: uppercase;
   margin-bottom: 0.9rem;
   font-weight: 500;
+  min-height: 1.6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.hero__cursor {
+  display: inline-block;
+  color: var(--color-accent);
+  font-weight: 300;
+  margin-left: 1px;
+  animation: cursorBlink 1s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 /* Tagline */
@@ -260,11 +370,11 @@ import site from '../../data/siteData.js'
   border-radius: var(--radius-btn);
   letter-spacing: 0.04em;
   background: var(--color-primary);
-  box-shadow: 0 4px 24px rgba(139, 26, 26, 0.45);
+  box-shadow: 0 4px 28px rgba(139, 26, 26, 0.5);
 }
 
 .hero__cta-btn:hover {
-  box-shadow: 0 8px 36px rgba(139, 26, 26, 0.55);
+  box-shadow: 0 10px 40px rgba(139, 26, 26, 0.6);
 }
 
 /* Scroll indicator */
@@ -274,13 +384,17 @@ import site from '../../data/siteData.js'
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .hero__scroll-dot {
   display: block;
   width: 10px;
   height: 10px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.55);
   border-radius: 50%;
   animation: scrollBounce 2s ease-in-out infinite;
 }
@@ -288,5 +402,13 @@ import site from '../../data/siteData.js'
 @keyframes scrollBounce {
   0%, 100% { transform: translateY(0); opacity: 0.5; }
   50% { transform: translateY(10px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__content { opacity: 1; transform: none; transition: none; }
+  .hero__blob { animation: none; }
+  .hero__scroll-dot { animation: none; opacity: 0.7; }
+  .hero__cursor { animation: none; opacity: 1; }
+  .hero__img { transition: none; }
 }
 </style>

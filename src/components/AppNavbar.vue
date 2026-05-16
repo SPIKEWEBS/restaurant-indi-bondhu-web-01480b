@@ -82,14 +82,16 @@ onUnmounted(() => {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  transition: background var(--transition-base), box-shadow var(--transition-base),
-    border-color var(--transition-base);
+  transition:
+    background 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 350ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .navbar--scrolled {
-  background: rgba(26, 16, 9, 0.96);
-  border-bottom-color: rgba(212, 160, 23, 0.2);
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35);
+  background: rgba(26, 16, 9, 0.97);
+  border-bottom-color: rgba(212, 160, 23, 0.25);
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(212, 160, 23, 0.15);
 }
 
 .navbar__container {
@@ -108,7 +110,9 @@ onUnmounted(() => {
   flex-direction: column;
   text-decoration: none;
   line-height: 1.15;
+  transition: opacity var(--transition-fast);
 }
+.navbar__brand:hover { opacity: 0.88; }
 
 .navbar__brand-name {
   font-family: var(--font-heading);
@@ -116,7 +120,7 @@ onUnmounted(() => {
   font-weight: 700;
   color: var(--color-accent);
   letter-spacing: 0.12em;
-  text-shadow: 0 0 20px rgba(212, 160, 23, 0.4);
+  text-shadow: 0 0 20px rgba(212, 160, 23, 0.45);
 }
 
 .navbar__brand-sub {
@@ -142,7 +146,10 @@ onUnmounted(() => {
   text-decoration: none;
   text-transform: uppercase;
   border-radius: var(--radius-sm);
-  transition: color var(--transition-fast), background var(--transition-fast);
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast),
+    transform var(--transition-fast);
   position: relative;
 }
 
@@ -156,12 +163,13 @@ onUnmounted(() => {
   background: var(--color-accent);
   border-radius: 2px;
   transform: scaleX(0);
-  transition: transform var(--transition-base);
+  transition: transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .navbar__link:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.09);
+  transform: translateY(-1px);
 }
 
 .navbar__link--active {
@@ -182,7 +190,9 @@ onUnmounted(() => {
   cursor: pointer;
   background: none;
   border: none;
+  transition: transform var(--transition-fast);
 }
+.navbar__toggle:hover { transform: scale(1.1); }
 
 .navbar__toggle-bar {
   display: block;
@@ -190,22 +200,38 @@ onUnmounted(() => {
   height: 2px;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 2px;
-  transition: background var(--transition-fast), transform var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-base),
+    opacity var(--transition-base);
+}
+
+.navbar__toggle-bar.open:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar__toggle-bar.open:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.navbar__toggle-bar.open:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* Mobile menu */
 .navbar__mobile-menu {
   display: flex;
   flex-direction: column;
-  background: rgba(26, 16, 9, 0.97);
+  background: rgba(26, 16, 9, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   overflow: hidden;
   max-height: 0;
-  transition: max-height var(--transition-slow);
+  transition: max-height var(--transition-slow) cubic-bezier(0.16, 1, 0.3, 1);
   border-top: 1px solid rgba(212, 160, 23, 0.15);
 }
 
 .navbar__mobile-menu--open {
-  max-height: 360px;
+  max-height: 380px;
 }
 
 .navbar__mobile-link {
@@ -217,14 +243,16 @@ onUnmounted(() => {
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  transition: color var(--transition-fast), background var(--transition-fast),
-    padding-left var(--transition-fast);
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast),
+    padding-left var(--transition-base);
 }
 
 .navbar__mobile-link:hover {
   color: var(--color-accent);
-  background: rgba(212, 160, 23, 0.07);
-  padding-left: calc(var(--spacing-md) + 0.4rem);
+  background: rgba(212, 160, 23, 0.08);
+  padding-left: calc(var(--spacing-md) + 0.5rem);
 }
 
 /* Responsive */

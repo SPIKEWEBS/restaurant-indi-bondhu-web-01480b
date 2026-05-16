@@ -8,14 +8,14 @@
 
     <div class="footer__container">
       <!-- Brand -->
-      <div class="footer__brand">
+      <div class="footer__brand reveal">
         <span class="footer__brand-name">BONDHU</span>
         <span class="footer__brand-sub">Indian Premium Restaurant</span>
         <p class="footer__brand-tagline">Los sabores de la India en Menorca</p>
       </div>
 
       <!-- Info -->
-      <div class="footer__info">
+      <div class="footer__info reveal reveal-delay-1">
         <h3 class="footer__info-heading">Contacto</h3>
         <address class="footer__address">
           <div class="footer__address-row">
@@ -38,7 +38,7 @@
       </div>
 
       <!-- Legal links -->
-      <nav class="footer__legal-nav" aria-label="Navegación legal">
+      <nav class="footer__legal-nav reveal reveal-delay-2" aria-label="Navegación legal">
         <h3 class="footer__info-heading">Legal</h3>
         <RouterLink
           v-for="link in site.footerLinks"
@@ -59,7 +59,28 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import site from '../data/siteData.js'
+
+onMounted(() => {
+  const revealEls = document.querySelectorAll('.reveal')
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.1 }
+  )
+  revealEls.forEach((el) => observer.observe(el))
+
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'))
+  }, 1500)
+})
 </script>
 
 <style scoped>
@@ -106,7 +127,11 @@ import site from '../data/siteData.js'
   font-weight: 700;
   color: var(--color-accent);
   letter-spacing: 0.12em;
-  text-shadow: 0 0 30px rgba(212, 160, 23, 0.3);
+  text-shadow: 0 0 30px rgba(212, 160, 23, 0.35);
+  transition: text-shadow var(--transition-base);
+}
+.footer__brand-name:hover {
+  text-shadow: 0 0 48px rgba(212, 160, 23, 0.6);
 }
 
 .footer__brand-sub {
@@ -135,7 +160,7 @@ import site from '../data/siteData.js'
   color: var(--color-accent);
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(212, 160, 23, 0.2);
+  border-bottom: 1px solid rgba(212, 160, 23, 0.22);
 }
 
 /* Info */
@@ -152,6 +177,11 @@ import site from '../data/siteData.js'
   align-items: flex-start;
   gap: 0.6rem;
   line-height: 1.5;
+  transition: transform var(--transition-fast);
+}
+
+.footer__address-row:hover {
+  transform: translateX(3px);
 }
 
 .footer__address-row span:first-child {
@@ -180,7 +210,10 @@ import site from '../data/siteData.js'
   font-size: 0.84rem;
   color: rgba(255, 255, 255, 0.55);
   text-decoration: none;
-  transition: color var(--transition-fast), padding-left var(--transition-fast);
+  transition:
+    color var(--transition-fast),
+    padding-left var(--transition-fast),
+    transform var(--transition-fast);
   display: flex;
   align-items: center;
   gap: 0.35rem;

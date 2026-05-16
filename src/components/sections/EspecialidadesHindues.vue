@@ -1,12 +1,12 @@
 <template>
   <section class="especialidades" aria-labelledby="especialidades-heading">
     <div class="especialidades__container">
-      <p class="especialidades__eyebrow">Auténtica cocina india</p>
-      <h2 id="especialidades-heading" class="especialidades__title">ESPECIALIDADES HINDÚES</h2>
-      <div class="section-divider"></div>
+      <p class="especialidades__eyebrow reveal">Auténtica cocina india</p>
+      <h2 id="especialidades-heading" class="especialidades__title reveal reveal-delay-1">ESPECIALIDADES HINDÚES</h2>
+      <div class="section-divider reveal reveal-delay-1"></div>
 
       <!-- Marquee of specialties -->
-      <div class="especialidades__marquee" aria-hidden="true">
+      <div class="especialidades__marquee reveal reveal-delay-2" aria-hidden="true">
         <div class="especialidades__marquee-track">
           <span v-for="i in 3" :key="i">
             <span v-for="item in marqueeItems" :key="item + i" class="especialidades__marquee-item">
@@ -16,15 +16,18 @@
         </div>
       </div>
 
-      <p class="especialidades__desc">{{ site.descripcion }}</p>
+      <p class="especialidades__desc reveal reveal-delay-2">{{ site.descripcion }}</p>
 
       <!-- Image gallery grid -->
       <div class="especialidades__gallery">
         <div
           v-for="(img, index) in site.images.especialidades"
           :key="index"
-          class="especialidades__gallery-item"
-          :class="index === 0 ? 'especialidades__gallery-item--featured' : ''"
+          class="especialidades__gallery-item reveal"
+          :class="[
+            index === 0 ? 'especialidades__gallery-item--featured' : '',
+            `reveal-delay-${index + 1}`
+          ]"
         >
           <img
             :src="img"
@@ -38,7 +41,7 @@
         </div>
       </div>
 
-      <div class="especialidades__cta">
+      <div class="especialidades__cta reveal reveal-delay-3">
         <RouterLink to="/carta/" class="btn btn-primary" aria-label="Ver la carta de Bondhu Indian Premium Restaurant">
           <span aria-hidden="true">🍛</span> Ver nuestra Carta
         </RouterLink>
@@ -48,8 +51,30 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import site from '../../data/siteData.js'
+
 const marqueeItems = ['Tandoori', '✦', 'Curry', '✦', 'Biryanis', '✦', 'Balti', '✦', 'Naan', '✦']
+
+onMounted(() => {
+  const revealEls = document.querySelectorAll('.reveal')
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.1 }
+  )
+  revealEls.forEach((el) => observer.observe(el))
+
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'))
+  }, 1500)
+})
 </script>
 
 <style scoped>
@@ -145,7 +170,9 @@ const marqueeItems = ['Tandoori', '✦', 'Curry', '✦', 'Biryanis', '✦', 'Bal
   position: relative;
   cursor: pointer;
   box-shadow: var(--shadow-card);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .especialidades__gallery-item--featured {
@@ -153,8 +180,8 @@ const marqueeItems = ['Tandoori', '✦', 'Curry', '✦', 'Biryanis', '✦', 'Bal
 }
 
 .especialidades__gallery-item:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 0 40px rgba(var(--color-primary-rgb), 0.22), var(--shadow-card-hover);
 }
 
 .especialidades__gallery-img {
@@ -162,7 +189,7 @@ const marqueeItems = ['Tandoori', '✦', 'Curry', '✦', 'Biryanis', '✦', 'Bal
   height: 220px;
   object-fit: cover;
   display: block;
-  transition: transform var(--transition-slow);
+  transition: transform var(--transition-slow) cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .especialidades__gallery-item--featured .especialidades__gallery-img {
@@ -170,13 +197,13 @@ const marqueeItems = ['Tandoori', '✦', 'Curry', '✦', 'Biryanis', '✦', 'Bal
 }
 
 .especialidades__gallery-item:hover .especialidades__gallery-img {
-  transform: scale(1.06);
+  transform: scale(1.07);
 }
 
 .especialidades__gallery-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(10,4,0,0.45) 0%, transparent 50%);
+  background: linear-gradient(to top, rgba(10,4,0,0.5) 0%, transparent 55%);
   opacity: 0;
   transition: opacity var(--transition-base);
 }
@@ -217,5 +244,9 @@ const marqueeItems = ['Tandoori', '✦', 'Curry', '✦', 'Biryanis', '✦', 'Bal
   .especialidades__gallery-item--featured .especialidades__gallery-img {
     height: 260px;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .especialidades__marquee-track { animation: none; }
 }
 </style>

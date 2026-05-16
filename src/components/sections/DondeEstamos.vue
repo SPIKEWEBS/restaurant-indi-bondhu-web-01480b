@@ -1,48 +1,34 @@
 <template>
   <section class="donde" aria-labelledby="donde-heading">
     <div class="donde__container">
-      <p class="donde__eyebrow">Visítanos</p>
-      <h2 id="donde-heading" class="donde__title">Dónde estamos</h2>
-      <div class="section-divider"></div>
+      <p class="donde__eyebrow reveal">Visítanos</p>
+      <h2 id="donde-heading" class="donde__title reveal reveal-delay-1">Dónde estamos</h2>
+      <div class="section-divider reveal reveal-delay-1"></div>
 
       <div class="donde__layout">
         <!-- Cards column -->
         <div class="donde__cards">
-          <div class="donde__card">
+          <div
+            v-for="(card, i) in cards"
+            :key="card.key"
+            class="donde__card reveal"
+            :class="`reveal-delay-${i + 1}`"
+          >
             <div class="donde__card-icon-wrap" aria-hidden="true">
-              <span class="donde__icon">📍</span>
+              <span class="donde__icon">{{ card.icon }}</span>
             </div>
             <div class="donde__card-body">
-              <strong>{{ site.nombreCorto }} Restaurant</strong>
-              <p>{{ site.direccion }}</p>
-            </div>
-          </div>
-          <div class="donde__card">
-            <div class="donde__card-icon-wrap" aria-hidden="true">
-              <span class="donde__icon">☎</span>
-            </div>
-            <div class="donde__card-body">
-              <strong>Teléfono</strong>
-              <a :href="`tel:${site.telefonoRaw}`" class="donde__tel-link" aria-label="Llamar al restaurante Bondhu">
-                {{ site.telefono }}
+              <strong>{{ card.label }}</strong>
+              <a v-if="card.href" :href="card.href" :class="card.cls" :aria-label="card.ariaLabel">
+                {{ card.value }}
               </a>
-            </div>
-          </div>
-          <div class="donde__card">
-            <div class="donde__card-icon-wrap" aria-hidden="true">
-              <span class="donde__icon">✉</span>
-            </div>
-            <div class="donde__card-body">
-              <strong>Email</strong>
-              <a :href="`mailto:${site.email}`" aria-label="Enviar email a Bondhu Restaurant">
-                {{ site.email }}
-              </a>
+              <p v-else>{{ card.value }}</p>
             </div>
           </div>
         </div>
 
         <!-- Map placeholder -->
-        <div class="donde__map" aria-label="Mapa de ubicación del restaurante Bondhu">
+        <div class="donde__map reveal reveal-delay-3" aria-label="Mapa de ubicación del restaurante Bondhu">
           <div class="donde__map-inner">
             <span class="donde__map-icon" aria-hidden="true">🗺️</span>
             <p class="donde__map-text">{{ site.direccion }}</p>
@@ -63,7 +49,58 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import site from '../../data/siteData.js'
+
+const cards = [
+  {
+    key: 'dir',
+    icon: '📍',
+    label: `${site.nombreCorto} Restaurant`,
+    value: site.direccion,
+    href: null,
+    cls: '',
+    ariaLabel: '',
+  },
+  {
+    key: 'tel',
+    icon: '☎',
+    label: 'Teléfono',
+    value: site.telefono,
+    href: `tel:${site.telefonoRaw}`,
+    cls: 'donde__tel-link',
+    ariaLabel: 'Llamar al restaurante Bondhu',
+  },
+  {
+    key: 'email',
+    icon: '✉',
+    label: 'Email',
+    value: site.email,
+    href: `mailto:${site.email}`,
+    cls: '',
+    ariaLabel: 'Enviar email a Bondhu Restaurant',
+  },
+]
+
+onMounted(() => {
+  const revealEls = document.querySelectorAll('.reveal')
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.1 }
+  )
+  revealEls.forEach((el) => observer.observe(el))
+
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'))
+  }, 1500)
+})
 </script>
 
 <style scoped>
@@ -126,23 +163,33 @@ import site from '../../data/siteData.js'
   gap: 1rem;
   text-align: left;
   box-shadow: var(--shadow-card);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color var(--transition-base);
 }
 
 .donde__card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 0 32px rgba(var(--color-primary-rgb), 0.15), var(--shadow-card-hover);
+  border-color: rgba(var(--color-primary-rgb), 0.15);
 }
 
 .donde__card-icon-wrap {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: var(--radius-md);
-  background: rgba(139, 26, 26, 0.08);
+  background: rgba(139, 26, 26, 0.09);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.donde__card:hover .donde__card-icon-wrap {
+  background: rgba(139, 26, 26, 0.16);
+  transform: scale(1.08);
 }
 
 .donde__icon {
@@ -173,7 +220,6 @@ import site from '../../data/siteData.js'
   font-size: 1rem !important;
   font-weight: 700 !important;
   color: var(--color-primary) !important;
-  transition: color var(--transition-fast);
 }
 
 .donde__card-body a:hover,
@@ -183,7 +229,7 @@ import site from '../../data/siteData.js'
 
 /* Map */
 .donde__map {
-  background: var(--color-surface-alt);
+  background: linear-gradient(135deg, var(--color-surface-alt) 0%, var(--color-surface) 100%);
   border-radius: var(--radius-card);
   min-height: 260px;
   display: flex;
@@ -191,6 +237,12 @@ import site from '../../data/siteData.js'
   justify-content: center;
   border: 2px dashed var(--color-border);
   box-shadow: var(--shadow-card);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.donde__map:hover {
+  border-color: rgba(var(--color-primary-rgb), 0.25);
+  box-shadow: 0 0 32px rgba(var(--color-primary-rgb), 0.1), var(--shadow-card-hover);
 }
 
 .donde__map-inner {
@@ -202,7 +254,8 @@ import site from '../../data/siteData.js'
 }
 
 .donde__map-icon {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
 }
 
 .donde__map-text {
