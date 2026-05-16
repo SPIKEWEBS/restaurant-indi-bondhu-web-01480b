@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, defineAsyncComponent } from 'vue'
 // Section imports
 const HeroPortada = defineAsyncComponent(() => import('../components/sections/HeroPortada.vue'))
 const SaboresIndia = defineAsyncComponent(() => import('../components/sections/SaboresIndia.vue'))
