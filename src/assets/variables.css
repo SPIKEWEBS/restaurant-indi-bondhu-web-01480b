@@ -1,27 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,400&family=Inter:wght@400;500;600&display=swap');
+
 /* ===== BONDHU — Design Tokens ===== */
 :root {
   /* Colors */
   --color-primary: #8b1a1a;
   --color-primary-dark: #6b1212;
   --color-primary-light: #c0392b;
+  --color-secondary: #d4a017;
   --color-accent: #d4a017;
   --color-accent-light: #f0c040;
+  --color-accent-glow: rgba(212, 160, 23, 0.35);
 
   --color-bg: #ffffff;
-  --color-surface: #f5f5f3;
-  --color-surface-dark: #1a1a1a;
-  --color-text: #222222;
-  --color-text-muted: #555555;
+  --color-surface: #f8f6f2;
+  --color-surface-alt: #f2ede6;
+  --color-surface-dark: #1a1009;
+  --color-text: #1a1a1a;
+  --color-text-muted: #5a5248;
   --color-text-light: #ffffff;
-  --color-border: rgba(0, 0, 0, 0.1);
+  --color-border: rgba(139, 26, 26, 0.12);
+  --color-border-light: rgba(0, 0, 0, 0.07);
 
-  --color-overlay: rgba(0, 0, 0, 0.55);
-  --color-overlay-dark: rgba(0, 0, 0, 0.72);
+  --color-overlay: rgba(10, 4, 0, 0.45);
+  --color-overlay-dark: rgba(10, 4, 0, 0.68);
 
   /* Fonts */
-  --font-heading: 'Georgia', 'Times New Roman', serif;
-  --font-body: 'Arial', 'Helvetica Neue', sans-serif;
-  --font-display: 'Georgia', serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display: 'Playfair Display', serif;
 
   /* Spacing */
   --spacing-xs: 0.5rem;
@@ -32,26 +38,30 @@
   --spacing-2xl: 6rem;
 
   /* Section padding */
-  --section-py: 80px;
-  --section-py-mobile: 48px;
+  --section-py: 96px;
+  --section-py-mobile: 56px;
 
   /* Border radius */
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-xl: 40px;
+  --radius-card: 14px;
+  --radius-btn: 8px;
 
   /* Navbar */
-  --navbar-height: 64px;
-  --navbar-bg: rgba(255, 255, 255, 0.95);
+  --navbar-height: 68px;
+  --navbar-bg: rgba(26, 16, 9, 0.92);
 
   /* Transitions */
   --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-  --transition-slow: 400ms ease;
+  --transition-base: 260ms ease;
+  --transition-slow: 420ms ease;
 
   /* Shadows */
-  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.12);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.10);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.13);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.18);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 14px 44px rgba(139, 26, 26, 0.18);
 }

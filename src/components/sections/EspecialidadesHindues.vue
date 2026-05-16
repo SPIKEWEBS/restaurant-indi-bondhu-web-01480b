@@ -1,9 +1,21 @@
 <template>
   <section class="especialidades" aria-labelledby="especialidades-heading">
     <div class="especialidades__container">
+      <p class="especialidades__eyebrow">Auténtica cocina india</p>
       <h2 id="especialidades-heading" class="especialidades__title">ESPECIALIDADES HINDÚES</h2>
       <div class="section-divider"></div>
-      <h3 class="especialidades__subtitle">{{ site.especialidades }}</h3>
+
+      <!-- Marquee of specialties -->
+      <div class="especialidades__marquee" aria-hidden="true">
+        <div class="especialidades__marquee-track">
+          <span v-for="i in 3" :key="i">
+            <span v-for="item in marqueeItems" :key="item + i" class="especialidades__marquee-item">
+              {{ item }}
+            </span>
+          </span>
+        </div>
+      </div>
+
       <p class="especialidades__desc">{{ site.descripcion }}</p>
 
       <!-- Image gallery grid -->
@@ -12,6 +24,7 @@
           v-for="(img, index) in site.images.especialidades"
           :key="index"
           class="especialidades__gallery-item"
+          :class="index === 0 ? 'especialidades__gallery-item--featured' : ''"
         >
           <img
             :src="img"
@@ -21,12 +34,13 @@
             height="600"
             loading="lazy"
           />
+          <div class="especialidades__gallery-overlay" aria-hidden="true"></div>
         </div>
       </div>
 
       <div class="especialidades__cta">
         <RouterLink to="/carta/" class="btn btn-primary" aria-label="Ver la carta de Bondhu Indian Premium Restaurant">
-          Ver nuestra Carta
+          <span aria-hidden="true">🍛</span> Ver nuestra Carta
         </RouterLink>
       </div>
     </div>
@@ -35,12 +49,14 @@
 
 <script setup>
 import site from '../../data/siteData.js'
+const marqueeItems = ['Tandoori', '✦', 'Curry', '✦', 'Biryanis', '✦', 'Balti', '✦', 'Naan', '✦']
 </script>
 
 <style scoped>
 .especialidades {
   background: var(--color-bg);
   padding: var(--section-py-mobile) 0;
+  overflow: hidden;
 }
 
 .especialidades__container {
@@ -50,52 +66,95 @@ import site from '../../data/siteData.js'
   text-align: center;
 }
 
-.especialidades__title {
-  font-family: var(--font-heading);
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  color: var(--color-primary);
+.especialidades__eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
-}
-
-.section-divider {
-  width: 60px;
-  height: 3px;
-  background: var(--color-accent);
-  margin: 0.75rem auto 1.25rem;
-  border-radius: 2px;
-}
-
-.especialidades__subtitle {
-  font-size: clamp(0.95rem, 2vw, 1.2rem);
   color: var(--color-accent);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   font-weight: 600;
 }
 
-.especialidades__desc {
-  max-width: 700px;
-  margin: 0 auto 2.5rem;
-  font-size: 1rem;
+.especialidades__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.9rem, 4.5vw, 3.2rem);
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+}
+
+.section-divider {
+  width: 56px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  margin: 0.75rem auto 2rem;
+  border-radius: 2px;
+}
+
+/* Marquee */
+.especialidades__marquee {
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #fff 15%, #fff 85%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #fff 15%, #fff 85%, transparent);
+}
+
+.especialidades__marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  animation: marqueeScroll 22s linear infinite;
+  width: max-content;
+}
+
+.especialidades__marquee-item {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
-  line-height: 1.8;
+  padding: 0 1.25rem;
+  white-space: nowrap;
+}
+
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.333%); }
+}
+
+.especialidades__desc {
+  max-width: 680px;
+  margin: 0 auto 3rem;
+  font-size: 1.02rem;
+  color: var(--color-text-muted);
+  line-height: 1.85;
 }
 
 /* Gallery grid */
 .especialidades__gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.25rem;
-  margin-bottom: 2.5rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 3rem;
 }
 
 .especialidades__gallery-item {
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-card);
   overflow: hidden;
-  border: 1px solid var(--color-border);
+  position: relative;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.especialidades__gallery-item--featured {
+  grid-column: 1 / -1;
+}
+
+.especialidades__gallery-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .especialidades__gallery-img {
@@ -106,19 +165,57 @@ import site from '../../data/siteData.js'
   transition: transform var(--transition-slow);
 }
 
+.especialidades__gallery-item--featured .especialidades__gallery-img {
+  height: 320px;
+}
+
 .especialidades__gallery-item:hover .especialidades__gallery-img {
-  transform: scale(1.04);
+  transform: scale(1.06);
+}
+
+.especialidades__gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,4,0,0.45) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.especialidades__gallery-item:hover .especialidades__gallery-overlay {
+  opacity: 1;
 }
 
 .especialidades__cta {
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
+  .especialidades__gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .especialidades__gallery-item--featured {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 900px) {
   .especialidades {
     padding: var(--section-py) 0;
+  }
+  .especialidades__gallery {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+  .especialidades__gallery-item--featured {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+  .especialidades__gallery-img {
+    height: 260px;
+  }
+  .especialidades__gallery-item--featured .especialidades__gallery-img {
+    height: 260px;
   }
 }
 </style>

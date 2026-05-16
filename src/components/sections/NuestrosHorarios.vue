@@ -1,16 +1,23 @@
 <template>
   <section class="horarios" aria-labelledby="horarios-heading">
     <div class="horarios__container">
+      <p class="horarios__eyebrow">Planifica tu visita</p>
       <h2 id="horarios-heading" class="horarios__title">Nuestros horarios</h2>
       <div class="section-divider"></div>
+
       <div class="horarios__grid">
         <div
           v-for="(item, index) in site.horarios"
           :key="index"
           class="horarios__card"
+          :class="{ 'horarios__card--closed': item.franjas[0] === 'Cerrado' }"
         >
-          <span class="horarios__icon" aria-hidden="true">🕐</span>
-          <strong class="horarios__dias">{{ item.dias }}</strong>
+          <div class="horarios__card-header">
+            <span class="horarios__icon" aria-hidden="true">
+              {{ item.franjas[0] === 'Cerrado' ? '🔒' : '🕐' }}
+            </span>
+            <strong class="horarios__dias">{{ item.dias }}</strong>
+          </div>
           <div class="horarios__franjas">
             <span
               v-for="(franja, fi) in item.franjas"
@@ -44,70 +51,116 @@ import site from '../../data/siteData.js'
   text-align: center;
 }
 
+.horarios__eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
 .horarios__title {
   font-family: var(--font-heading);
-  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  font-size: clamp(1.7rem, 3.5vw, 2.6rem);
   color: var(--color-primary);
   margin-bottom: 0.5rem;
 }
 
 .section-divider {
-  width: 60px;
+  width: 56px;
   height: 3px;
-  background: var(--color-accent);
-  margin: 0.75rem auto 2rem;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  margin: 0.75rem auto 2.5rem;
   border-radius: 2px;
 }
 
 .horarios__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 
 .horarios__card {
-  padding: 1.75rem 1.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  padding: 2rem 1.75rem;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-card);
   background: var(--color-bg);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
+  gap: 1rem;
   text-align: center;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.horarios__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+}
+
+.horarios__card--closed::before {
+  background: rgba(139, 26, 26, 0.25);
+}
+
+.horarios__card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.horarios__card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
 }
 
 .horarios__icon {
-  font-size: 2rem;
+  font-size: 2.2rem;
   line-height: 1;
 }
 
 .horarios__dias {
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.1em;
   color: var(--color-text);
+  font-weight: 700;
 }
 
 .horarios__franjas {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.5rem;
+  width: 100%;
 }
 
 .horarios__franja {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--color-text-muted);
   background: var(--color-surface);
-  padding: 0.2rem 0.75rem;
-  border-radius: var(--radius-xl);
-  display: inline-block;
+  padding: 0.35rem 1rem;
+  border-radius: 100px;
+  display: block;
+  font-weight: 500;
+  border: 1px solid var(--color-border-light);
 }
 
 .horarios__franja--closed {
   color: var(--color-primary);
-  background: rgba(139, 26, 26, 0.08);
-  font-weight: 600;
+  background: rgba(139, 26, 26, 0.07);
+  border-color: rgba(139, 26, 26, 0.2);
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 @media (min-width: 768px) {
