@@ -9,7 +9,3 @@
 
 
 </script>
-
-<style scoped>
-/* Skip link is handled in base.css */
-</style>

@@ -1,252 +1,202 @@
 <template>
-  <section class="especialidades" aria-labelledby="especialidades-heading">
-    <div class="especialidades__container">
-      <p class="especialidades__eyebrow reveal">Auténtica cocina india</p>
-      <h2 id="especialidades-heading" class="especialidades__title reveal reveal-delay-1">ESPECIALIDADES HINDÚES</h2>
-      <div class="section-divider reveal reveal-delay-1"></div>
+  <section class="especialidades section bg-surface">
+    <div class="container">
+      <div class="especialidades__grid">
+        <!-- Left column: Especialidades -->
+        <div class="especialidades__col">
+          <div class="especialidades__text">
+            <h1 class="especialidades__title">ESPECIALIDADES HINDÚES</h1>
+            <h3 class="especialidades__subtitle">TANDOORI - CURRY - BIRYANIS - BALTI - NAAN</h3>
+            <h3 class="especialidades__desc">
+              Entre nuestras especialidades encontrarás todos los platos típicos de la India, desde Biryanis cocinados en nuestro horno Tandoori hasta diferentes Curry, platos Balti estilo Punjal y tamién los famosos Naan. Te lo explicamos todo en nuestra Carta.
+            </h3>
+          </div>
+          <RouterLink to="/carta/" class="especialidades__img-link" aria-label="Ver la carta de Bondhu Indian Premium Restaurant">
+            <img
+              src="/images/boton-20romo-20carta-0.jpg"
+              alt="Ver la carta del restaurante Bondhu"
+              width="870"
+              height="788"
+              class="especialidades__img"
+              loading="lazy"
+            />
+          </RouterLink>
+        </div>
 
-      <!-- Marquee of specialties -->
-      <div class="especialidades__marquee reveal reveal-delay-2" aria-hidden="true">
-        <div class="especialidades__marquee-track">
-          <span v-for="i in 3" :key="i">
-            <span v-for="item in marqueeItems" :key="item + i" class="especialidades__marquee-item">
-              {{ item }}
-            </span>
-          </span>
+        <!-- Right column: Restaurante -->
+        <div class="especialidades__col">
+          <div class="especialidades__text">
+            <h1 class="especialidades__title especialidades__title--restaurante">NUESTRO RESTAURANTE</h1>
+            <h3 class="especialidades__subtitle">DIFERENTES ESPACIOS PARA CADA OCASIÓN</h3>
+            <h3 class="especialidades__desc">
+              Aquí puedes ver nuestro restaurante y elegir el lugar que mas te apetezca, para un grupo, más romántico, totalmente a tu gusto.
+            </h3>
+            <h3 class="especialidades__desc">
+              Elige tu mesa y coméntanoslo en tu reserva online o telefónica.
+            </h3>
+          </div>
+          <RouterLink to="/elige-tu-mesa/" class="especialidades__img-link" aria-label="Elegir tu mesa en el restaurante Bondhu">
+            <img
+              src="/images/boton-20romo-20mesa-6.jpg"
+              alt="Elegir mesa en el restaurante Bondhu"
+              width="870"
+              height="788"
+              class="especialidades__img"
+              loading="lazy"
+            />
+          </RouterLink>
         </div>
       </div>
 
-      <p class="especialidades__desc reveal reveal-delay-2">{{ site.descripcion }}</p>
-
-      <!-- Image gallery grid -->
-      <div class="especialidades__gallery">
-        <div
-          v-for="(img, index) in site.images.especialidades"
-          :key="index"
-          class="especialidades__gallery-item reveal"
-          :class="[
-            index === 0 ? 'especialidades__gallery-item--featured' : '',
-            `reveal-delay-${index + 1}`
-          ]"
-        >
-          <img
-            :src="img"
-            :alt="`Plato de especialidad hindú en Bondhu Restaurant – imagen ${index + 1}`"
-            class="especialidades__gallery-img"
-            width="800"
-            height="600"
-            loading="lazy"
-          />
-          <div class="especialidades__gallery-overlay" aria-hidden="true"></div>
+      <!-- CTA Row -->
+      <div class="especialidades__cta-row">
+        <div class="especialidades__cta-col">
+          <p class="especialidades__cta-text">Llama y Reserva Ahora &gt;&gt;&gt;</p>
         </div>
-      </div>
-
-      <div class="especialidades__cta reveal reveal-delay-3">
-        <RouterLink to="/carta/" class="btn btn-primary" aria-label="Ver la carta de Bondhu Indian Premium Restaurant">
-          <span aria-hidden="true">🍛</span> Ver nuestra Carta
-        </RouterLink>
+        <div class="especialidades__cta-col">
+          <a
+            :href="siteData.telefonoHref"
+            class="especialidades__cta-phone"
+            aria-label="Llamar para reservar mesa en Bondhu: 971 37 34 73"
+          >
+            ☎ {{ siteData.telefono }}
+          </a>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import site from '../../data/siteData.js'
-
-const marqueeItems = ['Tandoori', '✦', 'Curry', '✦', 'Biryanis', '✦', 'Balti', '✦', 'Naan', '✦']
-
-onMounted(() => {
-  const revealEls = document.querySelectorAll('.reveal')
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
-          observer.unobserve(entry.target)
-        }
-      })
-    },
-    { threshold: 0.1 }
-  )
-  revealEls.forEach((el) => observer.observe(el))
-
-  setTimeout(() => {
-    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'))
-  }, 1500)
-})
+import siteData from '../../data/siteData.js'
 </script>
 
 <style scoped>
 .especialidades {
-  background: var(--color-bg);
-  padding: var(--section-py-mobile) 0;
-  overflow: hidden;
+  padding: var(--sp-section) 0;
 }
 
-.especialidades__container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
-  text-align: center;
+.especialidades__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-xl);
+  align-items: start;
 }
 
-.especialidades__eyebrow {
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-  margin-bottom: 0.5rem;
-  font-weight: 600;
+.especialidades__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+}
+
+.especialidades__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
 }
 
 .especialidades__title {
   font-family: var(--font-heading);
-  font-size: clamp(1.9rem, 4.5vw, 3.2rem);
-  color: var(--color-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.4rem;
-}
-
-.section-divider {
-  width: 56px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-  margin: 0.75rem auto 2rem;
-  border-radius: 2px;
-}
-
-/* Marquee */
-.especialidades__marquee {
-  overflow: hidden;
-  margin-bottom: 2.5rem;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #fff 15%, #fff 85%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #fff 15%, #fff 85%, transparent);
-}
-
-.especialidades__marquee-track {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  animation: marqueeScroll 22s linear infinite;
-  width: max-content;
-}
-
-.especialidades__marquee-item {
-  font-size: 0.82rem;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
   font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  padding: 0 1.25rem;
-  white-space: nowrap;
+  color: var(--color-primary);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
 }
 
-@keyframes marqueeScroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-33.333%); }
+.especialidades__title--restaurante {
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+}
+
+.especialidades__subtitle {
+  font-family: var(--font-nav);
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.04em;
 }
 
 .especialidades__desc {
-  max-width: 680px;
-  margin: 0 auto 3rem;
-  font-size: 1.02rem;
-  color: var(--color-text-muted);
-  line-height: 1.85;
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  font-weight: 400;
+  color: var(--color-text);
+  line-height: 1.6;
 }
 
-/* Gallery grid */
-.especialidades__gallery {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  margin-bottom: 3rem;
-}
-
-.especialidades__gallery-item {
-  border-radius: var(--radius-card);
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  box-shadow: var(--shadow-card);
-  transition:
-    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.especialidades__gallery-item--featured {
-  grid-column: 1 / -1;
-}
-
-.especialidades__gallery-item:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 0 40px rgba(var(--color-primary-rgb), 0.22), var(--shadow-card-hover);
-}
-
-.especialidades__gallery-img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
+.especialidades__img-link {
   display: block;
-  transition: transform var(--transition-slow) cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
-.especialidades__gallery-item--featured .especialidades__gallery-img {
-  height: 320px;
+.especialidades__img-link:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
 }
 
-.especialidades__gallery-item:hover .especialidades__gallery-img {
-  transform: scale(1.07);
+.especialidades__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--border-radius-lg);
 }
 
-.especialidades__gallery-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(10,4,0,0.5) 0%, transparent 55%);
-  opacity: 0;
-  transition: opacity var(--transition-base);
+/* CTA Row */
+.especialidades__cta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-xl);
+  margin-top: var(--sp-xl);
+  align-items: center;
 }
 
-.especialidades__gallery-item:hover .especialidades__gallery-overlay {
-  opacity: 1;
-}
-
-.especialidades__cta {
+.especialidades__cta-col {
   display: flex;
-  justify-content: center;
+  align-items: center;
 }
 
-@media (min-width: 640px) {
-  .especialidades__gallery {
-    grid-template-columns: repeat(2, 1fr);
+.especialidades__cta-text {
+  font-size: var(--fs-base);
+  color: var(--color-text);
+  font-weight: 400;
+}
+
+.especialidades__cta-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  background: var(--color-accent);
+  color: var(--color-primary);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  padding: var(--sp-md) var(--sp-xl);
+  border-radius: var(--border-radius-full);
+  text-decoration: none;
+  transition: background var(--transition-normal), transform var(--transition-fast);
+}
+
+.especialidades__cta-phone:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .especialidades__grid {
+    grid-template-columns: 1fr;
   }
-  .especialidades__gallery-item--featured {
-    grid-column: span 2;
+  .especialidades__cta-row {
+    grid-template-columns: 1fr;
+    gap: var(--sp-md);
   }
 }
 
-@media (min-width: 900px) {
+@media (max-width: 480px) {
   .especialidades {
-    padding: var(--section-py) 0;
+    padding: var(--sp-section-mobile) 0;
   }
-  .especialidades__gallery {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-  }
-  .especialidades__gallery-item--featured {
-    grid-column: span 2;
-    grid-row: span 1;
-  }
-  .especialidades__gallery-img {
-    height: 260px;
-  }
-  .especialidades__gallery-item--featured .especialidades__gallery-img {
-    height: 260px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .especialidades__marquee-track { animation: none; }
 }
 </style>

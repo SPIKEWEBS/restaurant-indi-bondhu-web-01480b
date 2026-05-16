@@ -1,77 +1,52 @@
 <template>
-  <main id="main-content" class="subpage">
-    <div class="subpage__hero">
-      <div class="subpage__hero-overlay" aria-hidden="true"></div>
-      <div class="subpage__hero-content">
-        <h1 class="subpage__title">COMO LLEGAR / CONTACTO</h1>
-        <p class="subpage__subtitle">{{ site.subtitulo }}</p>
+  <main id="main-content" class="contacto-view">
+    <div class="contacto-hero">
+      <div class="contacto-hero__content container">
+        <h1 class="contacto-hero__title">Cómo Llegar / Contacto</h1>
+        <h3 class="contacto-hero__subtitle">Bondhu Indian Premium Restaurant</h3>
       </div>
     </div>
 
-    <section class="contacto-section" aria-labelledby="contacto-heading">
-      <div class="contacto-section__container">
-        <h2 id="contacto-heading" class="contacto-section__title">Dónde estamos</h2>
-        <div class="section-divider"></div>
-
-        <div class="contacto-section__grid">
+    <section class="contacto-info section bg-surface">
+      <div class="container">
+        <h2 class="contacto-info__heading">Dónde estamos</h2>
+        <div class="contacto-cards">
           <div class="contacto-card">
             <span class="contacto-card__icon" aria-hidden="true">📍</span>
-            <strong class="contacto-card__label">Dirección</strong>
-            <p class="contacto-card__text">{{ site.nombreCorto }} Restaurant</p>
-            <p class="contacto-card__text">{{ site.direccion }}</p>
+            <div class="contacto-card__content">
+              <strong class="contacto-card__label">Dirección</strong>
+              <p class="contacto-card__text">BONDHU Restaurant</p>
+              <p class="contacto-card__text">Plaça Jaume II, 3 A, 07750 Ferreries, Illes Balears</p>
+            </div>
           </div>
           <div class="contacto-card">
-            <span class="contacto-card__icon" aria-hidden="true">☎</span>
-            <strong class="contacto-card__label">Teléfono</strong>
-            <a
-              :href="`tel:${site.telefonoRaw}`"
-              class="contacto-card__link"
-              aria-label="Llamar al restaurante Bondhu"
-            >
-              {{ site.telefono }}
-            </a>
+            <span class="contacto-card__icon" aria-hidden="true">☎️</span>
+            <div class="contacto-card__content">
+              <strong class="contacto-card__label">Teléfono</strong>
+              <a :href="siteData.telefonoHref" class="contacto-card__link" aria-label="Llamar al restaurante Bondhu">
+                (+34) {{ siteData.telefono }}
+              </a>
+            </div>
           </div>
           <div class="contacto-card">
-            <span class="contacto-card__icon" aria-hidden="true">✉</span>
-            <strong class="contacto-card__label">Email</strong>
-            <a
-              :href="`mailto:${site.email}`"
-              class="contacto-card__link"
-              aria-label="Enviar email a Bondhu Restaurant"
-            >
-              {{ site.email }}
-            </a>
+            <span class="contacto-card__icon" aria-hidden="true">✉️</span>
+            <div class="contacto-card__content">
+              <strong class="contacto-card__label">Email</strong>
+              <a :href="siteData.emailHref" class="contacto-card__link" aria-label="Enviar email a Bondhu Restaurant">
+                {{ siteData.email }}
+              </a>
+            </div>
           </div>
           <div class="contacto-card">
             <span class="contacto-card__icon" aria-hidden="true">🕐</span>
-            <strong class="contacto-card__label">Horarios</strong>
-            <div v-for="(h, i) in site.horarios" :key="i" class="contacto-card__horario">
-              <p class="contacto-card__text contacto-card__text--dias">{{ h.dias }}</p>
-              <p
-                v-for="(franja, fi) in h.franjas"
-                :key="fi"
-                class="contacto-card__text"
-              >
-                {{ franja }}
-              </p>
+            <div class="contacto-card__content">
+              <strong class="contacto-card__label">Horarios</strong>
+              <p class="contacto-card__text">Miércoles - Domingo</p>
+              <p class="contacto-card__text">13:00h - 16:00h</p>
+              <p class="contacto-card__text">19.30h - 23:00h</p>
+              <p class="contacto-card__text contacto-card__text--cerrado">Lunes y Martes: Cerrado</p>
             </div>
           </div>
-        </div>
-
-        <div class="contacto-section__map">
-          <p class="contacto-section__map-placeholder">
-            🗺️ Google Maps — Plaça Jaume II, 3 A, 07750 Ferreries
-          </p>
-        </div>
-
-        <div class="contacto-section__cta">
-          <a
-            :href="`tel:${site.telefonoRaw}`"
-            class="btn btn-primary"
-            aria-label="Llamar y reservar mesa en Bondhu Indian Premium Restaurant"
-          >
-            Llama y Reserva Ahora >>>
-          </a>
         </div>
       </div>
     </section>
@@ -80,165 +55,120 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import site from '../data/siteData.js'
+import siteData from '../data/siteData.js'
 
 onMounted(() => {
-  document.title = 'Contacto y Cómo Llegar — Bondhu Indian Premium Restaurant'
+  document.title = 'Cómo Llegar / Contacto — Bondhu Indian Premium Restaurant'
 })
 </script>
 
 <style scoped>
-/* ---- Hero ---- */
-.subpage__hero {
-  position: relative;
-  background: var(--color-surface-dark);
-  min-height: 320px;
+.contacto-view {
+  padding-top: var(--navbar-height);
+}
+
+.contacto-hero {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #4a2e22 100%);
+  padding: var(--sp-4xl) var(--sp-lg);
+  text-align: center;
+  min-height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: var(--navbar-height);
 }
 
-.subpage__hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: var(--color-overlay-dark);
-}
-
-.subpage__hero-content {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  color: var(--color-text-light);
-  padding: 3rem var(--spacing-md);
-}
-
-.subpage__title {
+.contacto-hero__title {
   font-family: var(--font-heading);
-  font-size: clamp(1.6rem, 5vw, 3.5rem);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-light);
-  margin-bottom: 0.5rem;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: 0.03em;
+  margin-bottom: var(--sp-md);
 }
 
-.subpage__subtitle {
-  font-size: 1rem;
-  letter-spacing: 0.1em;
-  color: var(--color-accent);
-  text-transform: uppercase;
+.contacto-hero__subtitle {
+  font-family: var(--font-nav);
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: var(--color-secondary);
+  font-weight: 400;
+  letter-spacing: 0.06em;
 }
 
-/* ---- Contacto Section ---- */
-.contacto-section {
-  background: var(--color-bg);
-  padding: var(--section-py-mobile) 0;
+.contacto-info {
+  padding: var(--sp-section) 0;
 }
 
-.contacto-section__container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
-  text-align: center;
-}
-
-.contacto-section__title {
+.contacto-info__heading {
   font-family: var(--font-heading);
-  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
   color: var(--color-primary);
+  margin-bottom: var(--sp-xl);
 }
 
-.section-divider {
-  width: 60px;
-  height: 3px;
-  background: var(--color-accent);
-  margin: 0.75rem auto 2rem;
-  border-radius: 2px;
-}
-
-/* Grid de cards */
-.contacto-section__grid {
+.contacto-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
+  gap: var(--sp-lg);
 }
 
 .contacto-card {
-  padding: 1.75rem 1.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.6rem;
-  text-align: center;
+  align-items: flex-start;
+  gap: var(--sp-md);
+  padding: var(--sp-lg);
+  background: var(--color-white);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: var(--border-radius-lg);
+  border-left: 4px solid var(--color-accent);
 }
 
 .contacto-card__icon {
-  font-size: 2.2rem;
-  line-height: 1;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.contacto-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
 }
 
 .contacto-card__label {
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
+  color: var(--color-accent);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-text);
+  letter-spacing: 0.06em;
 }
 
 .contacto-card__text {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--color-text);
   line-height: 1.5;
 }
 
-.contacto-card__text--dias {
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-.contacto-card__horario {
-  width: 100%;
+.contacto-card__text--cerrado {
+  color: var(--color-gray);
+  font-style: italic;
 }
 
 .contacto-card__link {
-  font-size: 0.95rem;
+  font-size: var(--fs-base);
   color: var(--color-primary);
+  font-weight: 700;
   text-decoration: none;
-  font-weight: 600;
   transition: color var(--transition-fast);
 }
 
 .contacto-card__link:hover {
-  color: var(--color-primary-dark);
+  color: var(--color-accent);
 }
 
-/* Map placeholder */
-.contacto-section__map {
-  border: 2px dashed var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 3rem 1rem;
-  margin-bottom: 2rem;
-  background: var(--color-surface);
-}
-
-.contacto-section__map-placeholder {
-  color: var(--color-text-muted);
-  font-size: 1rem;
-  margin: 0;
-}
-
-.contacto-section__cta {
-  display: flex;
-  justify-content: center;
-}
-
-@media (min-width: 768px) {
-  .contacto-section {
-    padding: var(--section-py) 0;
+@media (max-width: 480px) {
+  .contacto-info {
+    padding: var(--sp-section-mobile) 0;
   }
 }
 </style>

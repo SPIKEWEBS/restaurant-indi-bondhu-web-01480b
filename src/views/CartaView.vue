@@ -1,40 +1,27 @@
 <template>
-  <main id="main-content" class="subpage">
-    <div class="subpage__hero">
-      <div class="subpage__hero-overlay" aria-hidden="true"></div>
-      <div class="subpage__hero-content">
-        <h1 class="subpage__title">NUESTRA CARTA</h1>
-        <p class="subpage__subtitle">{{ site.subtitulo }}</p>
+  <main id="main-content" class="carta-view">
+    <div class="carta-hero">
+      <div class="carta-hero__overlay"></div>
+      <div class="carta-hero__content container">
+        <h1 class="carta-hero__title">NUESTRA CARTA</h1>
+        <h3 class="carta-hero__subtitle">Indian Premium Restaurant</h3>
       </div>
     </div>
 
-    <section class="carta-section" aria-labelledby="carta-heading">
-      <div class="carta-section__container">
-        <h2 id="carta-heading" class="carta-section__title">NUESTRA CARTA</h2>
-        <div class="section-divider"></div>
-        <p class="carta-section__text">{{ site.cartaTexto }}</p>
-
-        <div class="carta-section__cta-grid">
-          <div class="carta-cta-card">
-            <span class="carta-cta-card__icon" aria-hidden="true">📞</span>
-            <p class="carta-cta-card__text">¿Tienes alguna duda sobre nuestra carta o quieres reservar?</p>
-            <a
-              :href="`tel:${site.telefonoRaw}`"
-              class="btn btn-primary"
-              aria-label="Llamar y reservar mesa en Bondhu Indian Premium Restaurant"
-            >
-              Llama y Reserva Ahora >>>
-            </a>
-          </div>
-          <div class="carta-cta-card">
-            <span class="carta-cta-card__icon" aria-hidden="true">🍛</span>
-            <p class="carta-cta-card__text">Especialidades: Tandoori, Curry, Biryanis, Balti y Naan elaborados con las mejores recetas de la India.</p>
-          </div>
-          <div class="carta-cta-card">
-            <span class="carta-cta-card__icon" aria-hidden="true">📍</span>
-            <p class="carta-cta-card__text">{{ site.direccion }}</p>
-            <p class="carta-cta-card__phone">{{ site.telefono }}</p>
-          </div>
+    <section class="carta-content section bg-surface">
+      <div class="container carta-content__inner">
+        <h2 class="carta-content__heading">NUESTRA CARTA</h2>
+        <p class="carta-content__desc">
+          En Bondhu Indian Premium Restaurant utilizamos las recetas típicas de la India. Te las explicamos a continuación.
+        </p>
+        <div class="carta-ctas">
+          <a
+            :href="siteData.telefonoHref"
+            class="btn btn-primary carta-cta-btn"
+            aria-label="Llamar al restaurante Bondhu para reservar"
+          >
+            📞 Llama y Reserva Ahora >>>
+          </a>
         </div>
       </div>
     </section>
@@ -43,7 +30,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import site from '../data/siteData.js'
+import siteData from '../data/siteData.js'
 
 onMounted(() => {
   document.title = 'Nuestra Carta — Bondhu Indian Premium Restaurant'
@@ -51,126 +38,86 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* ---- Hero ---- */
-.subpage__hero {
+.carta-view {
+  padding-top: var(--navbar-height);
+}
+
+.carta-hero {
   position: relative;
-  background: var(--color-surface-dark);
-  min-height: 320px;
+  background: var(--color-primary);
+  padding: var(--sp-4xl) var(--sp-lg);
+  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: var(--navbar-height);
+  min-height: 300px;
 }
 
-.subpage__hero-overlay {
+.carta-hero__overlay {
   position: absolute;
   inset: 0;
-  background: var(--color-overlay-dark);
+  background: linear-gradient(135deg, var(--color-primary) 0%, #4a2e22 100%);
 }
 
-.subpage__hero-content {
+.carta-hero__content {
   position: relative;
   z-index: 1;
-  text-align: center;
-  color: var(--color-text-light);
-  padding: 3rem var(--spacing-md);
 }
 
-.subpage__title {
+.carta-hero__title {
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 6vw, 4rem);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-text-light);
-  margin-bottom: 0.5rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: 0.04em;
+  margin-bottom: var(--sp-md);
 }
 
-.subpage__subtitle {
-  font-size: 1rem;
-  letter-spacing: 0.1em;
-  color: var(--color-accent);
-  text-transform: uppercase;
+.carta-hero__subtitle {
+  font-family: var(--font-nav);
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  color: var(--color-secondary);
+  font-weight: 400;
+  letter-spacing: 0.08em;
 }
 
-/* ---- Carta Section ---- */
-.carta-section {
-  background: var(--color-bg);
-  padding: var(--section-py-mobile) 0;
+.carta-content {
+  padding: var(--sp-section) 0;
 }
 
-.carta-section__container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
-  text-align: center;
-}
-
-.carta-section__title {
-  font-family: var(--font-heading);
-  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
-  color: var(--color-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.section-divider {
-  width: 60px;
-  height: 3px;
-  background: var(--color-accent);
-  margin: 0.75rem auto 1.5rem;
-  border-radius: 2px;
-}
-
-.carta-section__text {
+.carta-content__inner {
   max-width: 700px;
-  margin: 0 auto 2.5rem;
-  font-size: 1.05rem;
-  color: var(--color-text-muted);
-  line-height: 1.8;
 }
 
-/* Cards grid */
-.carta-section__cta-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1rem;
-}
-
-.carta-cta-card {
-  padding: 2rem 1.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.85rem;
-  text-align: center;
-}
-
-.carta-cta-card__icon {
-  font-size: 2.2rem;
-  line-height: 1;
-}
-
-.carta-cta-card__text {
-  font-size: 0.93rem;
-  color: var(--color-text-muted);
-  line-height: 1.6;
-  margin: 0;
-}
-
-.carta-cta-card__phone {
-  font-size: 1rem;
-  font-weight: 600;
+.carta-content__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
   color: var(--color-primary);
-  margin: 0;
+  margin-bottom: var(--sp-lg);
 }
 
-@media (min-width: 768px) {
-  .carta-section {
-    padding: var(--section-py) 0;
+.carta-content__desc {
+  font-size: var(--fs-lg);
+  color: var(--color-text);
+  line-height: 1.7;
+  margin-bottom: var(--sp-2xl);
+}
+
+.carta-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-md);
+}
+
+.carta-cta-btn {
+  font-size: var(--fs-base);
+  padding: var(--sp-md) var(--sp-xl);
+}
+
+@media (max-width: 600px) {
+  .carta-view {
+    padding-top: var(--navbar-height);
   }
 }
 </style>

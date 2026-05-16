@@ -1,69 +1,79 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,400&family=Inter:wght@400;500;600&display=swap');
+/* ============================================
+   BONDHU Indian Premium Restaurant
+   Design Tokens / CSS Custom Properties
+   ============================================ */
 
-/* ===== BONDHU — Design Tokens ===== */
 :root {
-  /* Colors */
-  --color-primary: #8b1a1a;
-  --color-primary-dark: #6b1212;
-  --color-primary-light: #c0392b;
-  --color-primary-rgb: 139, 26, 26;
-  --color-secondary: #d4a017;
-  --color-accent: #d4a017;
-  --color-accent-rgb: 212, 160, 23;
-  --color-accent-light: #f0c040;
-  --color-accent-glow: rgba(212, 160, 23, 0.35);
+  /* Brand Colors */
+  --color-primary:    #2B1F1A;
+  --color-secondary:  #F4E4D0;
+  --color-accent:     #E8AD3D;
 
-  --color-bg: #ffffff;
-  --color-surface: #f8f6f2;
-  --color-surface-alt: #f2ede6;
-  --color-surface-dark: #1a1009;
-  --color-text: #1a1a1a;
-  --color-text-muted: #5a5248;
-  --color-text-light: #ffffff;
-  --color-border: rgba(139, 26, 26, 0.12);
-  --color-border-light: rgba(0, 0, 0, 0.07);
+  /* Neutral Colors */
+  --color-white:      #ffffff;
+  --color-black:      #000000;
+  --color-dark:       #1a1a1a;
+  --color-gray-light: #f5f5f5;
+  --color-gray:       #888888;
+  --color-gray-mid:   #cccccc;
+  --color-text:       #333333;
+  --color-text-light: #666666;
 
-  --color-overlay: rgba(10, 4, 0, 0.45);
-  --color-overlay-dark: rgba(10, 4, 0, 0.68);
+  /* Surface Colors */
+  --color-surface:    #f7f7f5;
+  --color-footer-bg:  #222222;
 
-  /* Fonts */
-  --font-heading: 'Playfair Display', Georgia, serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-display: 'Playfair Display', serif;
+  /* Overlay */
+  --overlay-dark:     rgba(0, 0, 0, 0.45);
+  --overlay-light:    rgba(0, 0, 0, 0.25);
+
+  /* Typography */
+  --font-heading:     'Georgia', serif;
+  --font-body:        'Arial', sans-serif;
+  --font-nav:         'Arial', 'Helvetica Neue', sans-serif;
+
+  /* Font Sizes */
+  --fs-xs:   0.75rem;
+  --fs-sm:   0.875rem;
+  --fs-base: 1rem;
+  --fs-md:   1.125rem;
+  --fs-lg:   1.25rem;
+  --fs-xl:   1.5rem;
+  --fs-2xl:  2rem;
+  --fs-3xl:  2.5rem;
+  --fs-4xl:  3.5rem;
+  --fs-5xl:  5rem;
 
   /* Spacing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 2.5rem;
-  --spacing-xl: 4rem;
-  --spacing-2xl: 6rem;
+  --sp-xs:   0.25rem;
+  --sp-sm:   0.5rem;
+  --sp-md:   1rem;
+  --sp-lg:   1.5rem;
+  --sp-xl:   2rem;
+  --sp-2xl:  3rem;
+  --sp-3xl:  4rem;
+  --sp-4xl:  5rem;
+  --sp-section: 80px;
+  --sp-section-mobile: 48px;
 
-  /* Section padding */
-  --section-py: 96px;
-  --section-py-mobile: 56px;
-
-  /* Border radius */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 40px;
-  --radius-card: 14px;
-  --radius-btn: 8px;
-
-  /* Navbar */
-  --navbar-height: 68px;
-  --navbar-bg: rgba(26, 16, 9, 0.92);
-
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-base: 260ms ease;
-  --transition-slow: 420ms ease;
+  /* Border */
+  --border-radius-sm:   4px;
+  --border-radius-md:   8px;
+  --border-radius-lg:   12px;
+  --border-radius-xl:   20px;
+  --border-radius-full: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.10);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.13);
-  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.18);
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
-  --shadow-card-hover: 0 14px 44px rgba(139, 26, 26, 0.18);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.20);
+
+  /* Transitions */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   400ms ease;
+
+  /* Layout */
+  --max-width: 1200px;
+  --navbar-height: 70px;
 }

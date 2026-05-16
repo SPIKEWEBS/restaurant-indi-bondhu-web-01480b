@@ -1,243 +1,74 @@
 <template>
   <footer class="footer">
-    <div class="footer__top-wave" aria-hidden="true">
-      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,30 C360,60 1080,0 1440,30 L1440,0 L0,0 Z" fill="#ffffff"/>
-      </svg>
+    <div class="footer__legal container">
+      <p class="footer__legal-links">
+        <RouterLink to="/aviso-legal/" class="footer__legal-link">Aviso Legal</RouterLink>
+        <span class="footer__sep"> - </span>
+        <RouterLink to="/politica-de-privacidad/" class="footer__legal-link">Política de Privacidad</RouterLink>
+        <span class="footer__sep"> - </span>
+        <RouterLink to="/politica-de-cookies/" class="footer__legal-link">Política de Cookies</RouterLink>
+      </p>
     </div>
-
-    <div class="footer__container">
-      <!-- Brand -->
-      <div class="footer__brand reveal">
-        <span class="footer__brand-name">BONDHU</span>
-        <span class="footer__brand-sub">Indian Premium Restaurant</span>
-        <p class="footer__brand-tagline">Los sabores de la India en Menorca</p>
-      </div>
-
-      <!-- Info -->
-      <div class="footer__info reveal reveal-delay-1">
-        <h3 class="footer__info-heading">Contacto</h3>
-        <address class="footer__address">
-          <div class="footer__address-row">
-            <span aria-hidden="true">📍</span>
-            <span>{{ site.direccion }}</span>
-          </div>
-          <div class="footer__address-row">
-            <span aria-hidden="true">☎</span>
-            <a :href="`tel:${site.telefonoRaw}`" aria-label="Llamar al restaurante Bondhu">
-              {{ site.telefono }}
-            </a>
-          </div>
-          <div class="footer__address-row">
-            <span aria-hidden="true">✉</span>
-            <a :href="`mailto:${site.email}`" aria-label="Enviar email a Bondhu">
-              {{ site.email }}
-            </a>
-          </div>
-        </address>
-      </div>
-
-      <!-- Legal links -->
-      <nav class="footer__legal-nav reveal reveal-delay-2" aria-label="Navegación legal">
-        <h3 class="footer__info-heading">Legal</h3>
-        <RouterLink
-          v-for="link in site.footerLinks"
-          :key="link.to"
-          :to="link.to"
-          class="footer__legal-link"
-        >
-          <span aria-hidden="true">›</span> {{ link.label }}
-        </RouterLink>
-      </nav>
-    </div>
-
-    <!-- Bottom bar -->
     <div class="footer__bottom">
-      <span>{{ site.copyright }}</span>
+      <div class="container footer__bottom-inner">
+        <p class="footer__copy">{{ siteData.copyright }}</p>
+      </div>
     </div>
   </footer>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import site from '../data/siteData.js'
-
-onMounted(() => {
-  const revealEls = document.querySelectorAll('.reveal')
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
-          observer.unobserve(entry.target)
-        }
-      })
-    },
-    { threshold: 0.1 }
-  )
-  revealEls.forEach((el) => observer.observe(el))
-
-  setTimeout(() => {
-    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'))
-  }, 1500)
-})
+import siteData from '../data/siteData.js'
 </script>
 
 <style scoped>
 .footer {
-  background: var(--color-surface-dark);
-  color: rgba(255, 255, 255, 0.82);
-  padding-top: 0;
-  position: relative;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  font-family: var(--font-body);
 }
 
-.footer__top-wave {
-  display: block;
-  width: 100%;
-  height: 60px;
-  overflow: hidden;
-  background: var(--color-surface-dark);
-  margin-bottom: -1px;
+.footer__legal {
+  padding: var(--sp-lg) var(--sp-lg);
+  text-align: center;
+  border-top: 1px solid rgba(244, 228, 208, 0.2);
 }
 
-.footer__top-wave svg {
-  display: block;
-  width: 100%;
-  height: 100%;
+.footer__legal-links {
+  font-size: var(--fs-sm);
+  color: var(--color-secondary);
 }
 
-.footer__container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2.5rem var(--spacing-md) 3rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
-}
-
-/* Brand */
-.footer__brand {
-  display: flex;
-  flex-direction: column;
-}
-
-.footer__brand-name {
-  font-family: var(--font-heading);
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--color-accent);
-  letter-spacing: 0.12em;
-  text-shadow: 0 0 30px rgba(212, 160, 23, 0.35);
-  transition: text-shadow var(--transition-base);
-}
-.footer__brand-name:hover {
-  text-shadow: 0 0 48px rgba(212, 160, 23, 0.6);
-}
-
-.footer__brand-sub {
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.5);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-top: 0.25rem;
-}
-
-.footer__brand-tagline {
-  margin-top: 0.75rem;
-  font-size: 0.88rem;
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.45);
-  line-height: 1.5;
-  margin-bottom: 0;
-}
-
-/* Headings */
-.footer__info-heading {
-  font-family: var(--font-heading);
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--color-accent);
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(212, 160, 23, 0.22);
-}
-
-/* Info */
-.footer__address {
-  font-style: normal;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  font-size: 0.88rem;
-}
-
-.footer__address-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  line-height: 1.5;
-  transition: transform var(--transition-fast);
-}
-
-.footer__address-row:hover {
-  transform: translateX(3px);
-}
-
-.footer__address-row span:first-child {
-  flex-shrink: 0;
-  margin-top: 0.05rem;
-}
-
-.footer__address a {
-  color: rgba(255, 255, 255, 0.82);
+.footer__legal-link {
+  color: var(--color-secondary);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
-.footer__address a:hover {
-  color: var(--color-accent);
-}
-
-/* Legal */
-.footer__legal-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.footer__legal-link {
-  font-size: 0.84rem;
-  color: rgba(255, 255, 255, 0.55);
-  text-decoration: none;
-  transition:
-    color var(--transition-fast),
-    padding-left var(--transition-fast),
-    transform var(--transition-fast);
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
 .footer__legal-link:hover {
   color: var(--color-accent);
-  padding-left: 0.3rem;
 }
 
-/* Bottom */
+.footer__sep {
+  color: var(--color-secondary);
+  opacity: 0.6;
+}
+
 .footer__bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-  text-align: center;
-  padding: 1.1rem var(--spacing-md);
-  font-size: 0.76rem;
-  color: rgba(255, 255, 255, 0.32);
-  letter-spacing: 0.04em;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: var(--sp-md) 0;
 }
 
-@media (min-width: 768px) {
-  .footer__container {
-    grid-template-columns: 1.4fr 1fr 1fr;
-    align-items: start;
-  }
+.footer__bottom-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer__copy {
+  font-size: var(--fs-sm);
+  color: var(--color-secondary);
+  opacity: 0.8;
+  text-align: center;
 }
 </style>
