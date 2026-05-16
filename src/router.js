@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/elige-tu-mesa/',
     name: 'elige-tu-mesa',
-    component: () => import('./views/EligetumesaView.vue')
+    component: () => import('./views/EligeTuMesaView.vue')
   },
   {
     path: '/contacto/',
@@ -25,7 +25,7 @@ const routes = [
   {
     path: '/aviso-legal/',
     name: 'aviso-legal',
-    component: () => import('./views/AvisolegalView.vue')
+    component: () => import('./views/AvisoLegalView.vue')
   },
   {
     path: '/politica-de-privacidad/',
