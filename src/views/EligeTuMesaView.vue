@@ -1,28 +1,44 @@
 <template>
-  <main id="main-content" class="mesa-page">
-    <div class="mesa-page__hero">
-      <div class="mesa-page__hero-overlay"></div>
-      <div class="mesa-page__gradient-anim" aria-hidden="true"></div>
-      <div class="mesa-page__hero-content">
-        <span class="mesa-page__eyebrow reveal">Bondhu Restaurant</span>
-        <h1 class="mesa-page__title reveal reveal-delay-1">{{ siteData.eligeTuMesa.titulo }}</h1>
-        <span class="mesa-page__title-line reveal reveal-delay-2" aria-hidden="true"></span>
+  <main id="main-content" class="subpage">
+    <div class="subpage__hero">
+      <div class="subpage__hero-overlay" aria-hidden="true"></div>
+      <div class="subpage__hero-content">
+        <h1 class="subpage__title">ELIGE TU MESA</h1>
+        <p class="subpage__subtitle">{{ site.subtitulo }}</p>
       </div>
     </div>
 
-    <section class="mesa-page__body section container" aria-labelledby="mesa-subtitulo">
-      <div class="mesa-page__card reveal">
-        <h2 id="mesa-subtitulo" class="mesa-page__subtitle reveal reveal-delay-1">{{ siteData.eligeTuMesa.comedor.titulo }}</h2>
-        <span class="mesa-page__subtitle-line reveal reveal-delay-1" aria-hidden="true"></span>
-        <p class="mesa-page__desc reveal reveal-delay-2">{{ siteData.eligeTuMesa.comedor.descripcion }}</p>
+    <section class="mesa-section" aria-labelledby="mesa-heading">
+      <div class="mesa-section__container">
+        <h2 id="mesa-heading" class="mesa-section__title">Nuestro Comedor</h2>
+        <div class="section-divider"></div>
+        <p class="mesa-section__text">{{ site.comedor.descripcion }}</p>
 
-        <div class="mesa-page__cta reveal reveal-delay-3">
+        <div class="mesa-section__cards">
+          <div class="mesa-card">
+            <span class="mesa-card__icon" aria-hidden="true">🪑</span>
+            <strong class="mesa-card__label">Comedor interior</strong>
+            <p class="mesa-card__desc">Amplio y acogedor comedor con mullidas sillas de gran comodidad y decoración ecléctica de inspiración hindú.</p>
+          </div>
+          <div class="mesa-card">
+            <span class="mesa-card__icon" aria-hidden="true">☀️</span>
+            <strong class="mesa-card__label">Terraza exterior</strong>
+            <p class="mesa-card__desc">Los meses de verano o si hace buen tiempo, disponemos de una agradable terraza para disfrutar al aire libre.</p>
+          </div>
+          <div class="mesa-card">
+            <span class="mesa-card__icon" aria-hidden="true">✨</span>
+            <strong class="mesa-card__label">Tu satisfacción</strong>
+            <p class="mesa-card__desc">Nuestra prioridad es tu máxima satisfacción. Si tienes alguna sugerencia, no dudes en hacérnoslo saber.</p>
+          </div>
+        </div>
+
+        <div class="mesa-section__cta">
           <a
-            :href="siteData.telefonoHref"
+            :href="`tel:${site.telefonoRaw}`"
             class="btn btn-primary"
-            aria-label="Llamar y reservar mesa ahora en Bondhu Restaurant"
+            aria-label="Llamar para reservar mesa en Bondhu Indian Premium Restaurant"
           >
-            ☎ Llama y Reserva Ahora >>>
+            Llama y Reserva Ahora >>>
           </a>
         </div>
       </div>
@@ -32,214 +48,137 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import siteData from '../data/siteData.js'
+import site from '../data/siteData.js'
 
 onMounted(() => {
-  document.title = 'Elige Tu Mesa — Bondhu Indian Premium Restaurant'
-
-  // Safety fallback
-  setTimeout(() => {
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'))
-  }, 1500)
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
-          observer.unobserve(entry.target)
-        }
-      })
-    },
-    { threshold: 0.1 }
-  )
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+  document.title = 'Elige tu Mesa — Bondhu Indian Premium Restaurant'
 })
 </script>
 
 <style scoped>
-/* Reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal.visible {
-  opacity: 1;
-  transform: none;
-}
-.reveal-delay-1 { transition-delay: 0.12s; }
-.reveal-delay-2 { transition-delay: 0.24s; }
-.reveal-delay-3 { transition-delay: 0.38s; }
-
-@keyframes gradientShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.mesa-page {
-  padding-top: var(--navbar-height);
-}
-
-.mesa-page__hero {
+/* ---- Hero ---- */
+.subpage__hero {
   position: relative;
-  background: linear-gradient(160deg, #120900 0%, #1e1000 55%, #0f0600 100%);
-  min-height: 360px;
+  background: var(--color-surface-dark);
+  min-height: 320px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  margin-top: var(--navbar-height);
 }
 
-.mesa-page__hero::before {
-  content: '';
+.subpage__hero-overlay {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 55% 70% at 70% 50%, rgba(200,169,110,0.14) 0%, transparent 65%),
-    radial-gradient(ellipse 45% 55% at 20% 40%, rgba(139,0,0,0.18) 0%, transparent 65%);
-  pointer-events: none;
+  background: var(--color-overlay-dark);
 }
 
-.mesa-page__gradient-anim {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(120deg,
-    var(--color-secondary),
-    var(--color-primary),
-    #e8c882,
-    var(--color-secondary)
-  );
-  background-size: 300% 300%;
-  animation: gradientShift 7s ease infinite;
-  pointer-events: none;
-}
-
-.mesa-page__hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.22);
-}
-
-.mesa-page__hero-content {
+.subpage__hero-content {
   position: relative;
   z-index: 1;
   text-align: center;
-  padding: var(--space-2xl) var(--space-md);
+  color: var(--color-text-light);
+  padding: 3rem var(--spacing-md);
+}
+
+.subpage__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 6vw, 4rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  margin-bottom: 0.5rem;
+}
+
+.subpage__subtitle {
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  text-transform: uppercase;
+}
+
+/* ---- Mesa Section ---- */
+.mesa-section {
+  background: var(--color-bg);
+  padding: var(--section-py-mobile) 0;
+}
+
+.mesa-section__container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  text-align: center;
+}
+
+.mesa-section__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  color: var(--color-primary);
+}
+
+.section-divider {
+  width: 60px;
+  height: 3px;
+  background: var(--color-accent);
+  margin: 0.75rem auto 1.5rem;
+  border-radius: 2px;
+}
+
+.mesa-section__text {
+  max-width: 750px;
+  margin: 0 auto 2.5rem;
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  line-height: 1.8;
+}
+
+/* Cards */
+.mesa-section__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.mesa-card {
+  padding: 2rem 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-}
-
-.mesa-page__eyebrow {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: rgba(200, 169, 110, 0.82);
-}
-
-.mesa-page__title {
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: 0.1em;
-  text-shadow: 0 4px 32px rgba(0,0,0,0.4);
-}
-
-.mesa-page__title-line {
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-  border-radius: 2px;
-  margin-top: 0.5rem;
-}
-
-.mesa-page__body {
-  padding-top: var(--section-padding);
-  padding-bottom: var(--section-padding);
-}
-
-.mesa-page__card {
-  max-width: 820px;
-  margin: 0 auto;
-  padding: var(--space-2xl);
-  background: var(--color-surface);
-  border-radius: var(--radius-card);
-  border: 1px solid var(--color-border-gold);
-  box-shadow: var(--shadow-card);
+  gap: 0.75rem;
   text-align: center;
-  transition: box-shadow 0.3s ease;
 }
 
-.mesa-page__card:hover {
-  box-shadow: 0 12px 48px rgba(200, 169, 110, 0.14);
+.mesa-card__icon {
+  font-size: 2.2rem;
+  line-height: 1;
 }
 
-.mesa-page__subtitle {
-  font-family: var(--font-heading);
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  font-weight: 700;
+.mesa-card__label {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
   color: var(--color-primary);
-  margin-bottom: 0.4rem;
 }
 
-.mesa-page__subtitle-line {
-  display: block;
-  width: 48px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-  border-radius: 2px;
-  margin: 0.4rem auto var(--space-lg);
+.mesa-card__desc {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0;
 }
 
-.mesa-page__desc {
-  font-size: var(--font-size-lg);
-  color: var(--color-text-light);
-  line-height: 1.8;
-  margin-bottom: var(--space-xl);
+.mesa-section__cta {
+  display: flex;
+  justify-content: center;
 }
 
-.mesa-page__cta {
-  margin-top: var(--space-lg);
-}
-
-.mesa-page__cta .btn {
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.mesa-page__cta .btn:hover {
-  transform: translateY(-3px) scale(1.03);
-}
-
-@media (max-width: 768px) {
-  .mesa-page__body {
-    padding: var(--section-padding-mobile) var(--space-sm);
-  }
-
-  .mesa-page__card {
-    padding: var(--space-lg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-  .mesa-page__gradient-anim {
-    animation: none;
+@media (min-width: 768px) {
+  .mesa-section {
+    padding: var(--section-py) 0;
   }
 }
 </style>

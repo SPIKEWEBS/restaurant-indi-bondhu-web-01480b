@@ -1,82 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600&display=swap');
-
-/* =============================================
-   BONDHU Indian Premium Restaurant — Variables
-   ============================================= */
-
+/* ===== BONDHU — Design Tokens ===== */
 :root {
   /* Colors */
-  --color-primary: #c8a96e;       /* Gold/warm amber — Indian accent */
-  --color-primary-dark: #a8893e;
-  --color-primary-light: rgba(200, 169, 110, 0.12);
-  --color-secondary: #8b0000;     /* Deep red */
-  --color-secondary-light: rgba(139, 0, 0, 0.08);
-  --color-bg: #ffffff;
-  --color-surface: #f7f5f0;
-  --color-surface-alt: #fdf9f3;
-  --color-surface-dark: #1a1a1a;
-  --color-text: #1a1a1a;
-  --color-text-light: #4a4a4a;
-  --color-text-muted: #7a7a7a;
-  --color-heading: #111111;
-  --color-heading-dark: #0a0a0a;
-  --color-border: rgba(0, 0, 0, 0.08);
-  --color-border-gold: rgba(200, 169, 110, 0.25);
-  --color-overlay: rgba(0, 0, 0, 0.55);
-  --color-overlay-hero: rgba(15, 8, 0, 0.52);
-  --color-footer-bg: #fdf9f3;
-  --color-navbar-bg: rgba(255, 255, 255, 0.92);
-  --color-navbar-scrolled: rgba(10, 5, 0, 0.88);
-  --color-navbar-text: #222222;
-  --color-navbar-active: #c8a96e;
-  --color-cookie-bg: #1e1409;
-  --color-cookie-text: #f0ebe0;
-  --color-btn-primary: #c8a96e;
-  --color-btn-primary-text: #ffffff;
-  --color-btn-secondary: #ffffff;
-  --color-btn-secondary-text: #333333;
+  --color-primary: #8b1a1a;
+  --color-primary-dark: #6b1212;
+  --color-primary-light: #c0392b;
+  --color-accent: #d4a017;
+  --color-accent-light: #f0c040;
 
-  /* Typography */
-  --font-heading: 'Poppins', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-size-base: 16px;
-  --font-size-sm: 0.875rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.5rem;
-  --font-size-2xl: 2rem;
-  --font-size-3xl: 2.5rem;
-  --font-size-4xl: 3.5rem;
-  --font-size-hero: clamp(3rem, 8vw, 6rem);
+  --color-bg: #ffffff;
+  --color-surface: #f5f5f3;
+  --color-surface-dark: #1a1a1a;
+  --color-text: #222222;
+  --color-text-muted: #555555;
+  --color-text-light: #ffffff;
+  --color-border: rgba(0, 0, 0, 0.1);
+
+  --color-overlay: rgba(0, 0, 0, 0.55);
+  --color-overlay-dark: rgba(0, 0, 0, 0.72);
+
+  /* Fonts */
+  --font-heading: 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Arial', 'Helvetica Neue', sans-serif;
+  --font-display: 'Georgia', serif;
 
   /* Spacing */
-  --space-xs: 0.5rem;
-  --space-sm: 1rem;
-  --space-md: 1.5rem;
-  --space-lg: 2rem;
-  --space-xl: 3rem;
-  --space-2xl: 5rem;
-  --section-padding: 96px;
-  --section-padding-mobile: 56px;
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2.5rem;
+  --spacing-xl: 4rem;
+  --spacing-2xl: 6rem;
 
-  /* Layout */
-  --container-max: 1200px;
-  --navbar-height: 72px;
-  --border-radius: 12px;
-  --border-radius-sm: 8px;
-  --border-radius-lg: 20px;
-  --radius-card: 14px;
-  --radius-btn: 8px;
+  /* Section padding */
+  --section-py: 80px;
+  --section-py-mobile: 48px;
+
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 40px;
+
+  /* Navbar */
+  --navbar-height: 64px;
+  --navbar-bg: rgba(255, 255, 255, 0.95);
 
   /* Transitions */
-  --transition-fast: 0.2s ease;
-  --transition-base: 0.3s ease;
-  --transition-slow: 0.5s ease;
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
 
   /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-  --shadow-md: 0 4px 20px rgba(0,0,0,0.10);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,0.16);
-  --shadow-card: 0 4px 24px rgba(0,0,0,0.08);
-  --shadow-card-hover: 0 12px 40px rgba(0,0,0,0.15);
-  --shadow-gold: 0 4px 24px rgba(200, 169, 110, 0.25);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2);
 }

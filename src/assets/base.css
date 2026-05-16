@@ -1,19 +1,19 @@
-/* =============================================
-   BONDHU Indian Premium Restaurant — Base CSS
-   ============================================= */
+/* ===== BONDHU — Base Styles & Reset ===== */
 @import './variables.css';
 
-/* Reset */
-*, *::before, *::after {
+/* --- Box model reset --- */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* --- HTML & Body --- */
 html {
-  font-size: var(--font-size-base);
   scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
+  font-size: 16px;
 }
 
 body {
@@ -21,44 +21,42 @@ body {
   color: var(--color-text);
   background-color: var(--color-bg);
   line-height: 1.6;
-  min-height: 100vh;
-  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Typography */
+/* --- Typography --- */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   line-height: 1.2;
-  color: var(--color-heading);
+  color: inherit;
 }
 
-h1 { font-size: clamp(2.2rem, 5vw, 4rem); }
-h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
-h3 { font-size: clamp(1rem, 2vw, 1.3rem); }
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.5rem); }
+h3 { font-size: clamp(1.1rem, 2.5vw, 1.6rem); }
 
 p {
-  line-height: 1.7;
-  color: var(--color-text);
+  margin-bottom: 1rem;
+  line-height: 1.75;
 }
 
+p:last-child { margin-bottom: 0; }
+
 a {
-  color: inherit;
+  color: var(--color-primary);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
-
-a:hover {
-  color: var(--color-primary);
-}
+a:hover { color: var(--color-primary-dark); }
 
 img {
-  max-width: 100%;
   display: block;
+  max-width: 100%;
+  height: auto;
 }
 
-ul {
-  list-style: none;
-}
+ul, ol { list-style: none; }
 
 button {
   cursor: pointer;
@@ -67,7 +65,30 @@ button {
   font-family: inherit;
 }
 
-/* Accessibility */
+/* --- Focus Visible (Accessibility WCAG 2.1 AA) --- */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* --- Skip Link --- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 1rem;
+  background: var(--color-primary);
+  color: var(--color-text-light);
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  z-index: 9999;
+  transition: left var(--transition-fast);
+}
+.skip-link:focus {
+  left: 1rem;
+}
+
+/* --- Screen Reader Only --- */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -80,119 +101,88 @@ button {
   border: 0;
 }
 
-.skip-link {
-  position: absolute;
-  left: -9999px;
-  top: 0;
-  z-index: 9999;
-  padding: 0.5rem 1rem;
-  background: var(--color-primary);
-  color: #fff;
-  font-weight: bold;
-  border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
-}
-
-.skip-link:focus {
-  left: 0;
-}
-
-/* Focus styles */
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
-}
-
-/* Container */
+/* --- Utility Classes --- */
 .container {
-  max-width: var(--container-max);
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--space-md);
+  padding: 0 var(--spacing-md);
 }
 
-/* Section base */
-.section {
-  padding: var(--section-padding) 0;
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.section-py {
+  padding-top: var(--section-py-mobile);
+  padding-bottom: var(--section-py-mobile);
 }
 
-.section--surface {
-  background-color: var(--color-surface);
+@media (min-width: 768px) {
+  .section-py {
+    padding-top: var(--section-py);
+    padding-bottom: var(--section-py);
+  }
 }
 
-/* Section title decorator */
-.section-title-decorator {
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-  border-radius: 2px;
-  margin: 0.75rem auto 0;
-}
-
-/* Buttons */
+/* --- Buttons --- */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.875rem 2rem;
-  border-radius: var(--radius-btn);
-  font-size: var(--font-size-base);
-  font-weight: 600;
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 1rem;
   letter-spacing: 0.04em;
-  transition: all var(--transition-base);
-  cursor: pointer;
   text-align: center;
-  line-height: 1;
+  transition: background-color var(--transition-base), color var(--transition-base), transform var(--transition-fast);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: #fff;
-  border: 2px solid transparent;
-  box-shadow: 0 4px 16px rgba(200, 169, 110, 0.3);
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  border: 2px solid var(--color-primary);
 }
-
 .btn-primary:hover {
-  background: linear-gradient(135deg, var(--color-primary-dark) 0%, #8a7030 100%);
-  color: #fff;
-  box-shadow: 0 6px 24px rgba(200, 169, 110, 0.45);
-  transform: translateY(-2px);
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: var(--color-text-light);
 }
 
 .btn-outline {
-  background: transparent;
-  color: var(--color-primary);
-  border: 2px solid var(--color-primary);
+  background-color: transparent;
+  color: var(--color-text-light);
+  border: 2px solid var(--color-text-light);
 }
-
 .btn-outline:hover {
-  background: var(--color-primary);
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(200, 169, 110, 0.3);
+  background-color: var(--color-text-light);
+  color: var(--color-primary);
 }
 
-/* Utility classes */
-.text-center { text-align: center; }
-.text-gold { color: var(--color-primary); }
-.mt-sm { margin-top: var(--space-sm); }
-.mt-md { margin-top: var(--space-md); }
-.mt-lg { margin-top: var(--space-lg); }
-
-/* Gradient text utility */
-.gradient-text {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #e8c882 50%, var(--color-secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* --- Cards grid (avoid plain lists) --- */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
 }
 
-/* Mobile first media queries */
-@media (max-width: 768px) {
-  .section {
-    padding: var(--section-padding-mobile) 0;
-  }
-  .container {
-    padding: 0 1.25rem;
-  }
+.card {
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+}
+
+/* --- Section divider --- */
+.section-divider {
+  width: 60px;
+  height: 3px;
+  background: var(--color-accent);
+  margin: 1rem auto 2rem;
+  border-radius: 2px;
 }

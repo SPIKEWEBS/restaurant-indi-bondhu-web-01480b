@@ -3,38 +3,43 @@
     <div class="legal-page__hero">
       <div class="legal-page__hero-overlay" aria-hidden="true"></div>
       <div class="legal-page__hero-content">
-        <h1 class="legal-page__title">Aviso Legal</h1>
+        <h1 class="legal-page__title">Política de Privacidad</h1>
         <p class="legal-page__subtitle">{{ site.subtitulo }}</p>
       </div>
     </div>
 
-    <section class="legal-page__content" aria-labelledby="legal-heading">
+    <section class="legal-page__content" aria-labelledby="privacidad-heading">
       <div class="legal-page__container">
-        <h2 id="legal-heading" class="legal-page__section-title">Aviso Legal</h2>
+        <h2 id="privacidad-heading" class="legal-page__section-title">Política de Privacidad</h2>
         <div class="section-divider"></div>
 
         <div class="legal-page__text">
-          <h3>Datos del titular</h3>
+          <h3>Responsable del tratamiento</h3>
           <p>
-            <strong>Nombre del restaurante:</strong> {{ site.nombre }}<br />
-            <strong>Dirección:</strong> {{ site.direccion }}<br />
-            <strong>Teléfono:</strong> {{ site.telefono }}<br />
-            <strong>Email:</strong> {{ site.email }}
+            <strong>{{ site.nombre }}</strong><br />
+            {{ site.direccion }}<br />
+            {{ site.telefono }}<br />
+            {{ site.email }}
           </p>
 
-          <h3>Condiciones de uso</h3>
+          <h3>Finalidad del tratamiento</h3>
           <p>
-            El acceso y uso de este sitio web implica la aceptación de los presentes términos y condiciones de uso. El usuario se compromete a hacer un uso adecuado de los contenidos y servicios ofrecidos a través de este sitio web.
+            Los datos personales que nos facilite a través de los formularios de contacto o reserva serán utilizados únicamente para atender su solicitud, gestionar su reserva y enviarle información relacionada con nuestros servicios, siempre con su consentimiento.
           </p>
 
-          <h3>Propiedad intelectual</h3>
+          <h3>Derechos del usuario</h3>
           <p>
-            Todos los contenidos de este sitio web (textos, imágenes, diseño, etc.) son propiedad de {{ site.nombre }} o de terceros que han autorizado su uso. Queda prohibida su reproducción, distribución o comunicación pública sin autorización previa.
+            Tiene derecho a acceder, rectificar, suprimir y oponerse al tratamiento de sus datos personales. Para ejercer estos derechos, puede contactarnos en: <a :href="`mailto:${site.email}`">{{ site.email }}</a>.
           </p>
 
-          <h3>Limitación de responsabilidad</h3>
+          <h3>Conservación de datos</h3>
           <p>
-            {{ site.nombre }} no se hace responsable de los daños o perjuicios que puedan derivarse del uso de este sitio web o de la información contenida en él.
+            Los datos personales proporcionados se conservarán mientras sean necesarios para la finalidad para la que fueron recabados, o mientras el usuario no solicite su supresión.
+          </p>
+
+          <h3>Legitimación</h3>
+          <p>
+            La base legal para el tratamiento de sus datos es el consentimiento otorgado por el usuario al rellenar y enviar el formulario de contacto o reserva.
           </p>
         </div>
       </div>
@@ -47,7 +52,7 @@ import { onMounted } from 'vue'
 import site from '../data/siteData.js'
 
 onMounted(() => {
-  document.title = 'Aviso Legal — Bondhu Indian Premium Restaurant'
+  document.title = 'Política de Privacidad — Bondhu Indian Premium Restaurant'
 })
 </script>
 
@@ -79,7 +84,7 @@ onMounted(() => {
 .legal-page__title {
   font-family: var(--font-heading);
   font-size: clamp(1.8rem, 5vw, 3.5rem);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: var(--color-text-light);
   margin-bottom: 0.5rem;
 }
@@ -126,6 +131,11 @@ onMounted(() => {
   font-size: 0.97rem;
   color: var(--color-text-muted);
   line-height: 1.8;
+}
+
+.legal-page__text a {
+  color: var(--color-primary);
+  text-decoration: underline;
 }
 
 @media (min-width: 768px) {

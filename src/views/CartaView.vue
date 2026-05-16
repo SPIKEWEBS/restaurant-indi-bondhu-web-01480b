@@ -1,47 +1,40 @@
 <template>
-  <main id="main-content" class="carta-page">
-    <div class="carta-page__hero">
-      <div class="carta-page__hero-overlay"></div>
-      <div class="carta-page__gradient-anim" aria-hidden="true"></div>
-      <div class="carta-page__hero-content">
-        <span class="carta-page__eyebrow reveal">Bondhu Indian Premium Restaurant</span>
-        <h1 class="carta-page__title reveal reveal-delay-1">{{ siteData.carta.titulo }}</h1>
-        <span class="carta-page__title-line reveal reveal-delay-2" aria-hidden="true"></span>
+  <main id="main-content" class="subpage">
+    <div class="subpage__hero">
+      <div class="subpage__hero-overlay" aria-hidden="true"></div>
+      <div class="subpage__hero-content">
+        <h1 class="subpage__title">NUESTRA CARTA</h1>
+        <p class="subpage__subtitle">{{ site.subtitulo }}</p>
       </div>
     </div>
 
-    <section class="carta-page__body section container" aria-labelledby="carta-titulo">
-      <div class="carta-page__intro">
-        <p class="carta-page__desc reveal">{{ siteData.carta.descripcion }}</p>
-        <div class="carta-page__ctas">
-          <a
-            :href="siteData.telefonoHref"
-            class="btn btn-primary carta-page__cta reveal reveal-delay-1"
-            aria-label="Llamar y reservar ahora en Bondhu Restaurant"
-          >
-            ☎ {{ siteData.carta.ctaLabel }}
-          </a>
-          <a
-            :href="siteData.telefonoHref"
-            class="btn btn-outline carta-page__cta reveal reveal-delay-2"
-            aria-label="Llamar y reservar ahora en Bondhu Restaurant"
-          >
-            Llama y reserva Ahora >>>
-          </a>
-          <a
-            :href="siteData.telefonoHref"
-            class="btn btn-primary carta-page__cta reveal reveal-delay-3"
-            aria-label="Llamar y reservar ahora en Bondhu Restaurant"
-          >
-            Llama y reserva Ahora >>>
-          </a>
-          <a
-            :href="siteData.telefonoHref"
-            class="btn btn-outline carta-page__cta reveal reveal-delay-1"
-            aria-label="Llamar y reservar ahora en Bondhu Restaurant"
-          >
-            Llama y reserva Ahora >>>
-          </a>
+    <section class="carta-section" aria-labelledby="carta-heading">
+      <div class="carta-section__container">
+        <h2 id="carta-heading" class="carta-section__title">NUESTRA CARTA</h2>
+        <div class="section-divider"></div>
+        <p class="carta-section__text">{{ site.cartaTexto }}</p>
+
+        <div class="carta-section__cta-grid">
+          <div class="carta-cta-card">
+            <span class="carta-cta-card__icon" aria-hidden="true">📞</span>
+            <p class="carta-cta-card__text">¿Tienes alguna duda sobre nuestra carta o quieres reservar?</p>
+            <a
+              :href="`tel:${site.telefonoRaw}`"
+              class="btn btn-primary"
+              aria-label="Llamar y reservar mesa en Bondhu Indian Premium Restaurant"
+            >
+              Llama y Reserva Ahora >>>
+            </a>
+          </div>
+          <div class="carta-cta-card">
+            <span class="carta-cta-card__icon" aria-hidden="true">🍛</span>
+            <p class="carta-cta-card__text">Especialidades: Tandoori, Curry, Biryanis, Balti y Naan elaborados con las mejores recetas de la India.</p>
+          </div>
+          <div class="carta-cta-card">
+            <span class="carta-cta-card__icon" aria-hidden="true">📍</span>
+            <p class="carta-cta-card__text">{{ site.direccion }}</p>
+            <p class="carta-cta-card__phone">{{ site.telefono }}</p>
+          </div>
         </div>
       </div>
     </section>
@@ -50,192 +43,134 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import siteData from '../data/siteData.js'
+import site from '../data/siteData.js'
 
 onMounted(() => {
   document.title = 'Nuestra Carta — Bondhu Indian Premium Restaurant'
-
-  // Safety fallback
-  setTimeout(() => {
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'))
-  }, 1500)
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
-          observer.unobserve(entry.target)
-        }
-      })
-    },
-    { threshold: 0.1 }
-  )
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
 })
 </script>
 
 <style scoped>
-/* Reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal.visible {
-  opacity: 1;
-  transform: none;
-}
-.reveal-delay-1 { transition-delay: 0.12s; }
-.reveal-delay-2 { transition-delay: 0.24s; }
-.reveal-delay-3 { transition-delay: 0.38s; }
-
-@keyframes gradientShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.carta-page {
-  padding-top: var(--navbar-height);
-}
-
-.carta-page__hero {
+/* ---- Hero ---- */
+.subpage__hero {
   position: relative;
-  background: linear-gradient(160deg, #1a0e02 0%, #0f0600 55%, #2a1500 100%);
-  min-height: 360px;
+  background: var(--color-surface-dark);
+  min-height: 320px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  margin-top: var(--navbar-height);
 }
 
-.carta-page__hero::before {
-  content: '';
+.subpage__hero-overlay {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 50% 80% at 15% 60%, rgba(200,169,110,0.15) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 60% at 85% 30%, rgba(139,0,0,0.20) 0%, transparent 65%);
-  pointer-events: none;
+  background: var(--color-overlay-dark);
 }
 
-.carta-page__gradient-anim {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(120deg,
-    var(--color-primary),
-    var(--color-secondary),
-    #e8c882,
-    var(--color-primary)
-  );
-  background-size: 300% 300%;
-  animation: gradientShift 6s ease infinite;
-  pointer-events: none;
-}
-
-.carta-page__hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.22);
-}
-
-.carta-page__hero-content {
+.subpage__hero-content {
   position: relative;
   z-index: 1;
   text-align: center;
-  padding: var(--space-2xl) var(--space-md);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+  color: var(--color-text-light);
+  padding: 3rem var(--spacing-md);
 }
 
-.carta-page__eyebrow {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: rgba(200, 169, 110, 0.82);
-}
-
-.carta-page__title {
+.subpage__title {
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 800;
-  color: #fff;
+  font-size: clamp(2rem, 6vw, 4rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  margin-bottom: 0.5rem;
+}
+
+.subpage__subtitle {
+  font-size: 1rem;
   letter-spacing: 0.1em;
-  text-shadow: 0 4px 32px rgba(0,0,0,0.4);
+  color: var(--color-accent);
+  text-transform: uppercase;
 }
 
-.carta-page__title-line {
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-  border-radius: 2px;
-  margin-top: 0.5rem;
+/* ---- Carta Section ---- */
+.carta-section {
+  background: var(--color-bg);
+  padding: var(--section-py-mobile) 0;
 }
 
-.carta-page__body {
-  padding-top: var(--section-padding);
-  padding-bottom: var(--section-padding);
+.carta-section__container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
   text-align: center;
 }
 
-.carta-page__intro {
+.carta-section__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.section-divider {
+  width: 60px;
+  height: 3px;
+  background: var(--color-accent);
+  margin: 0.75rem auto 1.5rem;
+  border-radius: 2px;
+}
+
+.carta-section__text {
   max-width: 700px;
-  margin: 0 auto;
-}
-
-.carta-page__desc {
-  font-size: var(--font-size-lg);
-  color: var(--color-text-light);
+  margin: 0 auto 2.5rem;
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
   line-height: 1.8;
-  margin-bottom: var(--space-2xl);
 }
 
-.carta-page__ctas {
+/* Cards grid */
+.carta-section__cta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.carta-cta-card {
+  padding: 2rem 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-md);
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  text-align: center;
 }
 
-.carta-page__cta {
-  min-width: 220px;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+.carta-cta-card__icon {
+  font-size: 2.2rem;
+  line-height: 1;
 }
 
-.carta-page__cta:hover {
-  transform: translateY(-3px) scale(1.03);
+.carta-cta-card__text {
+  font-size: 0.93rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0;
 }
 
-@media (max-width: 768px) {
-  .carta-page__body {
-    padding: var(--section-padding-mobile) var(--space-sm);
-  }
-
-  .carta-page__ctas {
-    flex-direction: column;
-    align-items: center;
-  }
+.carta-cta-card__phone {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin: 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-  .carta-page__gradient-anim {
-    animation: none;
+@media (min-width: 768px) {
+  .carta-section {
+    padding: var(--section-py) 0;
   }
 }
 </style>
